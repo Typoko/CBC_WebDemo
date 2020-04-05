@@ -82,15 +82,19 @@ namespace ASPNETWebDemo.Controllers
             ViewBag.KarttaPath = "/TestFolder/testiKartta.jpg";
             //var karttaLadattu = Image<Rgba32>.Load(_env.WebRootPath + "/testiKartta.jpg");
             Image<Rgba32> karttaLadattu = Image.Load<Rgba32>("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/testiKartta.jpg");
-            bool[,] RuutuStatusTable = new bool[50, 50];
+            Ruutu[,] RuutuStatusTable = new Ruutu[50, 50];
             bool RuutuTyyppi = false;
+
+            //En ymmärrä miksi, mutta new Ruutu[50,50]; ei täytä taulukkoa uusilla instansseilla.
+            //Funktio täyttää taulun uusilla sen sijaan.
+            SetRuutuInstances(RuutuStatusTable);
 
             for(int i = 0;i<49;i++)
             {
                 RuutuTyyppi = false;
                 for(int j = 0;j<49;j++)
                 {
-                    RuutuStatusTable[i, j] = RuutuTyyppi;
+                    RuutuStatusTable[i, j].OnkoAvoin = RuutuTyyppi;
                     if (OnkoSeinaValissa(i,j,karttaLadattu))
                     {
                         RuutuTyyppi = !RuutuTyyppi;
@@ -120,8 +124,21 @@ namespace ASPNETWebDemo.Controllers
                     return true;
                 }
             }
-
+            
             return false;
         }
+
+        public void SetRuutuInstances(Ruutu[,] ruudut)
+        {
+            for (int i = 0; i < 50; i++)
+            {
+                for (int j = 0; j < 50; j++)
+                {
+                    ruudut[i, j] = new Ruutu();
+                }
+            }
+
+        }
+
     }
 }

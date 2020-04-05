@@ -1,4 +1,4 @@
-﻿@model bool[,]
+﻿@model ASPNETWebDemo.Models.Ruutu[,]
 
 @{
     ViewData["Title"] = "KartanMuunnos";
@@ -17,7 +17,7 @@
     <tr>
         @for (int i = 0; i < 50; i++)
         {
-            @if (Model[i, j])
+            @if (Model[i, j].OnkoAvoin)
             {
                 <td bgcolor="#FFFFFF">Tei</td>
             }
