@@ -83,24 +83,16 @@ namespace ASPNETWebDemo.Controllers
             //var karttaLadattu = Image<Rgba32>.Load(_env.WebRootPath + "/testiKartta.jpg");
             Image<Rgba32> karttaLadattu = Image.Load<Rgba32>("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/testiKartta.jpg");
             Ruutu[,] RuutuStatusTable = new Ruutu[50, 50];
-            bool RuutuTyyppi = false;
+            //bool RuutuTyyppi = false;
 
             //En ymmärrä miksi, mutta new Ruutu[50,50]; ei täytä taulukkoa uusilla instansseilla.
             //Funktio täyttää taulun uusilla sen sijaan.
             SetRuutuInstances(RuutuStatusTable);
 
-            for(int i = 0;i<49;i++)
-            {
-                RuutuTyyppi = false;
-                for(int j = 0;j<49;j++)
-                {
-                    RuutuStatusTable[i, j].OnkoAvoin = RuutuTyyppi;
-                    if (OnkoSeinaValissa(i,j,karttaLadattu))
-                    {
-                        RuutuTyyppi = !RuutuTyyppi;
-                    }
-                }
-            }
+            SetRuutuHuoneStatus(RuutuStatusTable, karttaLadattu);
+
+            SetRuutuSeinaStatus(RuutuStatusTable);
+
 
             //karttaLadattu[1, 1] = Rgba32.Red;
 
@@ -128,6 +120,25 @@ namespace ASPNETWebDemo.Controllers
             return false;
         }
 
+        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva)
+        {
+            bool RuutuTyyppi = false;
+
+            for (int i = 0; i < 49; i++)
+            {
+                RuutuTyyppi = false;
+                for (int j = 0; j < 49; j++)
+                {
+                    ruudut[i, j].OnkoAvoin = RuutuTyyppi;
+                    if (OnkoSeinaValissa(i, j, kuva))
+                    {
+                        RuutuTyyppi = !RuutuTyyppi;
+                    }
+                }
+            }
+
+        }
+
         public void SetRuutuInstances(Ruutu[,] ruudut)
         {
             for (int i = 0; i < 50; i++)
@@ -138,6 +149,54 @@ namespace ASPNETWebDemo.Controllers
                 }
             }
 
+        }
+
+        public void SetRuutuSeinaStatus(Ruutu[,] ruudut)
+        {
+            //käydään läpi keskiruudut ja reunaruudut erikseen, ettei tule out of bounds viittauksia
+            //vältytään joka ruudun kohdalla out of bounds testauksen tarpeesta
+            for (int i = 1; i < 49; i++)
+            {
+                for (int j = 1; j < 49; j++)
+                {
+                    if(ruudut[i,j].OnkoAvoin == false)
+                    {
+                        if(ruudut[i,j-1].OnkoAvoin == true)
+                        {
+                            ruudut[i, j].Seinat[0] = true;
+                        }
+                        if (ruudut[i+1, j].OnkoAvoin == true)
+                        {
+                            ruudut[i, j].Seinat[1] = true;
+                        }
+                        if (ruudut[i, j + 1].OnkoAvoin == true)
+                        {
+                            ruudut[i, j].Seinat[2] = true;
+                        }
+                        if (ruudut[i-1, j].OnkoAvoin == true)
+                        {
+                            ruudut[i, j].Seinat[3] = true;
+                        }
+                    }
+                }
+                //Erikseen tarkastettavat reunat
+                if (ruudut[i, 1].OnkoAvoin == true)
+                {
+                    ruudut[i, 0].Seinat[2] = true;
+                }
+                if (ruudut[48, i].OnkoAvoin == true)
+                {
+                    ruudut[49, i].Seinat[3] = true;
+                }
+                if (ruudut[i, 48].OnkoAvoin == true)
+                {
+                    ruudut[i, 49].Seinat[0] = true;
+                }
+                if (ruudut[1, i].OnkoAvoin == true)
+                {
+                    ruudut[0, i].Seinat[1] = true;
+                }
+            }
         }
 
     }

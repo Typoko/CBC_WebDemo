@@ -11,7 +11,7 @@
 
 @*i ja j eri päin koska taulu täytetään vaakatasossa*@
 
-<table>
+<table border="0" cellspacing="4" cellpadding="0">
     @for (int j = 0; j < 50; j++)
     {
     <tr>
@@ -23,7 +23,15 @@
             }
             else
             {
-                <td bgcolor="#555555">Tei</td>
+                @if (Model[i, j].Seinat[2])
+                {
+                    <td bgcolor="#555555" style="border-bottom:solid 5px #060">Tei</td>
+                }
+                else
+                {
+                    <td bgcolor="#555555">Tei</td>
+                }
+                
             }
 
         }
