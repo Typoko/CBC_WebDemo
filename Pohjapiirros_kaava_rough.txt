@@ -1,0 +1,68 @@
+START
+----------------
+// Ladataan käytettävä kuva
+var LadattuKuva
+var BitMap <- LadattuKuva
+
+// Muutetaan koko standardiksi
+// Jaetaan kuva ruutuihin (20x20 px)
+BitMap.SetSize(1000 x 1000)         //Asetetaan koko standardiksi
+BitMapRuudut[50,50] <- BitMap       //Kuva jaettuna osiin
+RuutuStatus[50,50] <- empty bool    //tallennetaan ruutujen seinä/lattia status. 
+Tyyppi <- true                      //kumpaa tallennetaan. Seinä == true
+
+// Tutkitaan 50x50 "ruutujen väliä" viivoista
+// Jos löytyy alaseinä niin vaihdetaan onko seinää vai aukeaaa
+for(j)
+    for(i)
+        BitMapRuudut[0+j,0+i] <- Tyyppi
+        
+        if OnkoAlaSeinä(BitMapRuudut[0+j,0+i], BitMapRuudut[0+j,1+i])
+            Tyyppi != Tyyppi
+        
+// Ruutujen status on selvitetty, täytetään diviruudukko, että nähdään onko oikein
+var Rajaukset[2] <- KäytettyRajaus(RuutuStatus)
+LuoDivi(Rajaukset[0], Rajaukset[1])
+TäytäDiviRuudukko(RuutuStatus)
+
+END
+-----------
+::METODIT::      
+//Tarkistetaan tuleeko alaspäin mentäessä seinää
+OnkoAlaSeinä([20x20 px bitmap] Ruutu, RuutuNext)
+{
+    for(i=0;i<5;i++)
+        if Ruutu[10,15+i] || RuutuNext[10,0+i]
+            Seinä -> return true
+
+    return false
+}
+
+KäytettyRajaus([50x50 bool taulu] RuutuTaulu)
+{
+    var xMax
+    var yMax
+    
+    for(i,j)
+        if ruututaulu[i,j] = false
+            if i > xMax
+            if j > yMax
+            
+    xMax++;
+    yMax++;
+}
+
+LuoDivi(xMax,yMax)
+{
+    <table>
+        for(x)
+        <tr>
+            for(y)
+            <th id="koord X_Y">
+}
+
+TäytäDiviRuudukko([XxY bool taulu] RuutuTaulu)
+{
+    for (i,j)
+        div[i,j] <- RuutuTaulu[i,j]
+}
