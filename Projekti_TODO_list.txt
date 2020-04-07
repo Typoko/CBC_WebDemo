@@ -11,7 +11,7 @@ v Nothuone ruutujen seinien piirto
 
 * Uploadaus
 
-* GUI
+* Käyttöliittymä
 
 * Kuvan skaalautuvuus
 

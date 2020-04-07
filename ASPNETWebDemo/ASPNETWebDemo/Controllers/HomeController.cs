@@ -178,6 +178,25 @@ namespace ASPNETWebDemo.Controllers
                             ruudut[i, j].Seinat[3] = true;
                         }
                     }
+                    else
+                    {
+                        if (ruudut[i, j - 1].OnkoAvoin == false)
+                        {
+                            ruudut[i, j].Seinat[0] = true;
+                        }
+                        if (ruudut[i + 1, j].OnkoAvoin == false)
+                        {
+                            ruudut[i, j].Seinat[1] = true;
+                        }
+                        if (ruudut[i, j + 1].OnkoAvoin == false)
+                        {
+                            ruudut[i, j].Seinat[2] = true;
+                        }
+                        if (ruudut[i - 1, j].OnkoAvoin == false)
+                        {
+                            ruudut[i, j].Seinat[3] = true;
+                        }
+                    }
                 }
                 //Erikseen tarkastettavat reunat
                 if (ruudut[i, 1].OnkoAvoin == true)

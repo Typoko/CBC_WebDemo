@@ -8,6 +8,13 @@
 
 <p>@ViewBag.Karttatesti</p>
 <img src="@ViewBag.KarttaPath">
+<img id="ruutuLaatta" src="~/Textures/huoneRuutuLaatta.png" style="display:none">
+<img id="varjo_0" src="~/Textures/huoneRuutuVarjo_0.png" style="display:none">
+<img id="varjo_1" src="~/Textures/huoneRuutuVarjo_1.png" style="display:none">
+<img id="varjo_2" src="~/Textures/huoneRuutuVarjo_2.png" style="display:none">
+<img id="varjo_3" src="~/Textures/huoneRuutuVarjo_3.png" style="display:none">
+<img id="ruutuTekstuuri" src="~/Textures/ruutuTekstuuri.png" style="display:none">
+@*  ="display:none">*@
 
 @*i ja j eri päin koska taulu täytetään vaakatasossa*@
 @*
@@ -105,6 +112,8 @@
     canvasContext.stroke();
     canvasContext.beginPath();
     canvasContext.fillStyle = "#777777";
+    var ruutuLaatta = document.getElementById("ruutuLaatta");
+    var varjo_0 = document.getElementById("varjo_0");
 </script>
 
 @for (int i = 0; i < 50; i++)
@@ -115,36 +124,85 @@
         {
             <script>
                 canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
+                canvasContext.drawImage(ruutuLaatta, @(i * 20), @(j * 20));
+                canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20));
             </script>
+
+            if (Model[i, j].Seinat[0])
+            {
+                <script>
+                    canvasContext.drawImage(varjo_0, @(i * 20), @(j * 20));
+                </script>
+            }
+            if (Model[i, j].Seinat[1])
+            {
+                <script>
+                    canvasContext.drawImage(varjo_1, @(i * 20), @(j * 20));
+                </script>
+            }
+            if (Model[i, j].Seinat[2])
+            {
+                <script>
+                    canvasContext.drawImage(varjo_2, @(i * 20), @(j * 20));
+                </script>
+            }
+            if (Model[i, j].Seinat[3])
+            {
+                <script>
+                    canvasContext.drawImage(varjo_3, @(i * 20), @(j * 20));
+                </script>
+            }
         }
     }
 }
 
 <script>
     canvasContext.stroke();
+    //canvasContext.beginPath();
+
+
 </script>
 
-
-
-
-@*
-    <script>
-
-        var c = document.getElementById("karttaCanvas");
-        var ctx = c.getContext("2d");
-        ctx.fillRect(0, 0, 20, 20);
-
-        @for (int i = 0; i < 50; i++)
+@*@for (int i = 0; i < 50; i++)
+    {
+        for (int j = 0; j < 50; j++)
         {
-            for (int j = 0; j < 50; j++)
+            if (Model[i, j].OnkoAvoin)
             {
-                if (!Model[i, j].OnkoAvoin)
-                {
+                <script>
 
-                    ctx.fillRect(0 + i * 20, 0 + j * 20, 20 + i * 20, 20 + j * 20);
-                }
+                </script>
             }
         }
+    }*@
 
+
+@*<script>
+        canvasContext.stroke();
     </script>*@
 
+
+
+
+@*<canvas id="testiCanvas" width="200" height="200" style="background-color:#777777">
+    </canvas>
+
+    <script>
+        var testiContext = document.getElementById("testiCanvas").getContext("2d");
+        var alphaGradient = testiContext.createLinearGradient(20, 20, 20, 40);
+        //testiContext.beginPath();
+        //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 0.3)');
+        //alphaGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
+
+
+        //testiContext.fillStyle = alphaGradient;
+        //testiContext.fillRect(0, 0, 200, 200);
+        //testiContext.stroke();
+
+        testiContext.beginPath();
+        alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+        alphaGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        testiContext.fillStyle = alphaGradient;
+        testiContext.fillRect(20, 20, 20, 20);
+        canvasContext.stroke();
+    </script>*@
