@@ -10,33 +10,141 @@
 <img src="@ViewBag.KarttaPath">
 
 @*i ja j eri päin koska taulu täytetään vaakatasossa*@
+@*
+    <table border="0" cellspacing="4" cellpadding="0">
+        @for (int j = 0; j < 50; j++)
+        {
+            <tr>
+                @for (int i = 0; i < 50; i++)
+                {
+                    @if (Model[i, j].OnkoAvoin)
+                    {
+                        <td bgcolor="#FFFFFF">Tei</td>
+                    }
+                    else
+                    {
+                        @if (Model[i, j].Seinat[2])
+                        {
+                            <td bgcolor="#555555" style="border-bottom:solid 5px #060">Tei</td>
+                        }
+                        else
+                        {
+                            <td bgcolor="#555555">Tei</td>
+                        }
 
-<table border="0" cellspacing="4" cellpadding="0">
-    @for (int j = 0; j < 50; j++)
+                    }
+
+                }
+            </tr>
+        }
+    </table>
+*@
+<canvas id="karttaCanvas" width="1000" height="1000" style="background-color:#FFFFFF">
+</canvas>
+
+<script>
+    var canvasContext = document.getElementById("karttaCanvas").getContext("2d");
+    canvasContext.beginPath();
+    canvasContext.fillStyle = "#333333";
+</script>
+
+@for (int i = 0; i < 50; i++)
+{
+    for (int j = 0; j < 50; j++)
     {
-    <tr>
+        if (!Model[i, j].OnkoAvoin)
+        {
+            <script>
+                canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
+            </script>
+        }
+    }
+}
+
+<script>
+    canvasContext.stroke();
+    canvasContext.beginPath();
+    canvasContext.fillStyle = "#555555";
+</script>
+
+@for (int i = 0; i < 50; i++)
+{
+    for (int j = 0; j < 50; j++)
+    {
+        if (!Model[i, j].OnkoAvoin)
+        {
+            if (Model[i, j].Seinat[0])
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20-5), @(j * 20), 30, 5);
+                </script>
+            }
+            if (Model[i, j].Seinat[1])
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20 + 15), @(j * 20-5), 5, 30);
+                </script>
+            }
+            if (Model[i, j].Seinat[2])
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20-5), @(j * 20+15), 30, 5);
+                </script>
+            }
+            if (Model[i, j].Seinat[3])
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20), @(j * 20-5), 5, 30);
+                </script>
+            }
+        }
+    }
+}
+
+<script>
+    canvasContext.stroke();
+    canvasContext.beginPath();
+    canvasContext.fillStyle = "#777777";
+</script>
+
+@for (int i = 0; i < 50; i++)
+{
+    for (int j = 0; j < 50; j++)
+    {
+        if (Model[i, j].OnkoAvoin)
+        {
+            <script>
+                canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
+            </script>
+        }
+    }
+}
+
+<script>
+    canvasContext.stroke();
+</script>
+
+
+
+
+@*
+    <script>
+
+        var c = document.getElementById("karttaCanvas");
+        var ctx = c.getContext("2d");
+        ctx.fillRect(0, 0, 20, 20);
+
         @for (int i = 0; i < 50; i++)
         {
-            @if (Model[i, j].OnkoAvoin)
+            for (int j = 0; j < 50; j++)
             {
-                <td bgcolor="#FFFFFF">Tei</td>
-            }
-            else
-            {
-                @if (Model[i, j].Seinat[2])
+                if (!Model[i, j].OnkoAvoin)
                 {
-                    <td bgcolor="#555555" style="border-bottom:solid 5px #060">Tei</td>
-                }
-                else
-                {
-                    <td bgcolor="#555555">Tei</td>
-                }
-                
-            }
 
+                    ctx.fillRect(0 + i * 20, 0 + j * 20, 20 + i * 20, 20 + j * 20);
+                }
+            }
         }
-    </tr>
-    }
-</table>
 
+    </script>*@
 

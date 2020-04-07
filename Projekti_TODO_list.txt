@@ -1,0 +1,18 @@
+* Canvas toiminnot
+v Aseta canvas (ja sen testaus varmista että alascripti toimii loopeille)
+v Canvasin väritys lattian väriksi
+v Nothuone ruutujen värjäys
+v Nothuone ruutujen seinien piirto
+- gradient shadowit huoneeseen ja seiniin
+- tekstuurit pinnoille
+
+! Alascriptistä siirto oikein toteutettuun scriptiipaikkaan ja .js tiedostoon
+
+
+* Uploadaus
+
+* GUI
+
+* Kuvan skaalautuvuus
+
+* Ruutukoon skaalautuvuus
