@@ -13,7 +13,12 @@
 <img id="varjo_1" src="~/Textures/huoneRuutuVarjo_1.png" style="display:none">
 <img id="varjo_2" src="~/Textures/huoneRuutuVarjo_2.png" style="display:none">
 <img id="varjo_3" src="~/Textures/huoneRuutuVarjo_3.png" style="display:none">
+<img id="varjoKulma_0" src="~/Textures/huoneRuutuVarjoKulma_0.png" style="display:none">
+<img id="varjoKulma_1" src="~/Textures/huoneRuutuVarjoKulma_1.png" style="display:none">
+<img id="varjoKulma_2" src="~/Textures/huoneRuutuVarjoKulma_2.png" style="display:none">
+<img id="varjoKulma_3" src="~/Textures/huoneRuutuVarjoKulma_3.png" style="display:none">
 <img id="ruutuTekstuuri" src="~/Textures/ruutuTekstuuri.png" style="display:none">
+
 @*  ="display:none">*@
 
 @*i ja j eri päin koska taulu täytetään vaakatasossa*@
@@ -84,24 +89,28 @@
             {
                 <script>
                     canvasContext.fillRect(@(i * 20-5), @(j * 20), 30, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20-5), @(j * 20), 20, 5);
                 </script>
             }
             if (Model[i, j].Seinat[1])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20 + 15), @(j * 20-5), 5, 30);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20 + 15), @(j * 20-5), 5, 20);
                 </script>
             }
             if (Model[i, j].Seinat[2])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20-5), @(j * 20+15), 30, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20-5), @(j * 20+15), 20, 5);
                 </script>
             }
             if (Model[i, j].Seinat[3])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20), @(j * 20-5), 5, 30);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20-5), 5, 20);
                 </script>
             }
         }
@@ -113,7 +122,11 @@
     canvasContext.beginPath();
     canvasContext.fillStyle = "#777777";
     var ruutuLaatta = document.getElementById("ruutuLaatta");
-    var varjo_0 = document.getElementById("varjo_0");
+    //var varjo_0 = document.getElementById("varjo_0");
+    //var varjo_1 = document.getElementById("varjo_1");
+    //var varjo_2 = document.getElementById("varjo_2");
+    //var varjo_3 = document.getElementById("varjo_3");
+
 </script>
 
 @for (int i = 0; i < 50; i++)
@@ -152,11 +165,38 @@
                     canvasContext.drawImage(varjo_3, @(i * 20), @(j * 20));
                 </script>
             }
+            if (Model[i, j].Kulmat[0])
+            {
+                <script>
+                    canvasContext.drawImage(varjoKulma_0, @(i * 20), @(j * 20));
+                </script>
+            }
+            if (Model[i, j].Kulmat[1])
+            {
+                <script>
+                    canvasContext.drawImage(varjoKulma_1, @(i * 20), @(j * 20));
+                </script>
+            }
+            if (Model[i, j].Kulmat[2])
+            {
+                <script>
+                    canvasContext.drawImage(varjoKulma_2, @(i * 20), @(j * 20));
+                </script>
+            }
+            if (Model[i, j].Kulmat[3])
+            {
+<script>
+                    canvasContext.drawImage(varjoKulma_3, @(i * 20), @(j * 20));
+                    canvasContext.drawImage(varjoKulma_3, @(i * 20), @(j * 20));
+</script>
+            }
         }
     }
 }
 
 <script>
+    //var varjoKulma_2 = document.getElementById("varjoKulma_2");
+    //canvasContext.drawImage(varjoKulma_2, 160, 140);
     canvasContext.stroke();
     //canvasContext.beginPath();
 

@@ -12,6 +12,8 @@ namespace ASPNETWebDemo.Models
         public bool OnkoAvoin = false;
         // määritellään mille reunoille ruutuun tulee piirtää seinäosuus
         public bool[] Seinat = new bool[4];
+        // määritellään mihin kulmaan täytyy tehdä lisäystä huoneen muodon vuoksi
+        public bool[] Kulmat = new bool[4];
 
         public Ruutu()
         {

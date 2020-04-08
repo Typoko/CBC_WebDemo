@@ -93,6 +93,8 @@ namespace ASPNETWebDemo.Controllers
 
             SetRuutuSeinaStatus(RuutuStatusTable);
 
+            SetRuutuKulmaStatus(RuutuStatusTable);
+
 
             //karttaLadattu[1, 1] = Rgba32.Red;
 
@@ -215,6 +217,53 @@ namespace ASPNETWebDemo.Controllers
                 {
                     ruudut[0, i].Seinat[1] = true;
                 }
+            }
+        }
+
+        public void SetRuutuKulmaStatus(Ruutu[,] ruudut)
+        {
+            bool ruutuStatus = false;
+            for (int i = 1; i < 49; i++)
+            {
+                for (int j = 1; j < 49; j++)
+                {
+                    ruutuStatus = ruudut[i, j].OnkoAvoin;
+
+                    if (ruudut[i, j - 1].OnkoAvoin == ruutuStatus && ruudut[i - 1, j].OnkoAvoin == ruutuStatus && ruudut[i - 1, j - 1].OnkoAvoin == !ruutuStatus)
+                    {
+                        ruudut[i, j].Kulmat[0] = true;
+                    }
+                    if (ruudut[i, j - 1].OnkoAvoin == ruutuStatus && ruudut[i + 1, j].OnkoAvoin == ruutuStatus && ruudut[i + 1, j - 1].OnkoAvoin == !ruutuStatus)
+                    {
+                        ruudut[i, j].Kulmat[1] = true;
+                    }
+                    if (ruudut[i, j + 1].OnkoAvoin == ruutuStatus && ruudut[i - 1, j].OnkoAvoin == ruutuStatus && ruudut[i + 1, j + 1].OnkoAvoin == !ruutuStatus)
+                    {
+                        ruudut[i, j].Kulmat[2] = true;
+                    }
+                    if (ruudut[i, j + 1].OnkoAvoin == ruutuStatus && ruudut[i + 1, j].OnkoAvoin == ruutuStatus && ruudut[i - 1, j + 1].OnkoAvoin == !ruutuStatus)
+                    {
+                        ruudut[i, j].Kulmat[3] = true;
+                    }
+                    
+                }
+                //Erikseen tarkastettavat reunat
+                //if (ruudut[i, 1].OnkoAvoin == true)
+                //{
+                //    ruudut[i, 0].Seinat[2] = true;
+                //}
+                //if (ruudut[48, i].OnkoAvoin == true)
+                //{
+                //    ruudut[49, i].Seinat[3] = true;
+                //}
+                //if (ruudut[i, 48].OnkoAvoin == true)
+                //{
+                //    ruudut[i, 49].Seinat[0] = true;
+                //}
+                //if (ruudut[1, i].OnkoAvoin == true)
+                //{
+                //    ruudut[0, i].Seinat[1] = true;
+                //}
             }
         }
 
