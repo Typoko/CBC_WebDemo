@@ -246,11 +246,11 @@ namespace ASPNETWebDemo.Controllers
                     {
                         ruudut[i, j].Kulmat[1] = true;
                     }
-                    if (ruudut[i, j + 1].OnkoAvoin == ruutuStatus && ruudut[i - 1, j].OnkoAvoin == ruutuStatus && ruudut[i + 1, j + 1].OnkoAvoin == !ruutuStatus)
+                    if (ruudut[i, j + 1].OnkoAvoin == ruutuStatus && ruudut[i + 1, j].OnkoAvoin == ruutuStatus && ruudut[i + 1, j + 1].OnkoAvoin == !ruutuStatus)
                     {
                         ruudut[i, j].Kulmat[2] = true;
                     }
-                    if (ruudut[i, j + 1].OnkoAvoin == ruutuStatus && ruudut[i + 1, j].OnkoAvoin == ruutuStatus && ruudut[i - 1, j + 1].OnkoAvoin == !ruutuStatus)
+                    if (ruudut[i, j + 1].OnkoAvoin == ruutuStatus && ruudut[i - 1, j].OnkoAvoin == ruutuStatus && ruudut[i - 1, j + 1].OnkoAvoin == !ruutuStatus)
                     {
                         ruudut[i, j].Kulmat[3] = true;
                     }
