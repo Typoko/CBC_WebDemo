@@ -3,24 +3,24 @@ v Aseta canvas (ja sen testaus varmista että alascripti toimii loopeille)
 v Canvasin väritys lattian väriksi
 v Nothuone ruutujen värjäys
 v Nothuone ruutujen seinien piirto
-/ gradient shadowit huoneeseen ja seiniin
- - Seinät puuttuu
+v gradient shadowit huoneeseen ja seiniin
 / tekstuurit pinnoille
  - iso kuva mistä pala ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
  
 ! Alascriptistä siirto oikein toteutettuun scriptiipaikkaan ja .js tiedostoon
 
 
-* Uploadaus
+* Uploadaus / Käyttöliittymä
 - uploadaus
 - tiedoston otto käsittelyyn
 - kuvan analysointi uploadattuun kuvaan
-
-* Käyttöliittymä
+- yleis leiska
+- ?
 
 * Kuvan skaalautuvuus
-- ei 1k per 1k ainoastaan
-- ruudukko skaalautuu analysoitujen ruutujen mukaan
-
+v ei 1k per 1k ainoastaan
+/ ruudukko skaalautuu analysoitujen ruutujen mukaan
+ - Rajatapaus jos reunassa niin kulmat ei toteutettu vielä!
+ 
 * Ruutukoon skaalautuvuus
-- 
+- mahdollisuus säätää ruudun kokoa ettei ole 20px

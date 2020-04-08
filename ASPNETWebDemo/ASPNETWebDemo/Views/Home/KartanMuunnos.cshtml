@@ -18,6 +18,7 @@
 <img id="varjoKulma_2" src="~/Textures/huoneRuutuVarjoKulma_2.png" style="display:none">
 <img id="varjoKulma_3" src="~/Textures/huoneRuutuVarjoKulma_3.png" style="display:none">
 <img id="ruutuTekstuuri" src="~/Textures/ruutuTekstuuri.png" style="display:none">
+<img id="30pShadow" src="~/Textures/30pShadow.png" style="display:none">
 
 @*  ="display:none">*@
 
@@ -80,6 +81,8 @@
     canvasContext.beginPath();
     canvasContext.fillStyle = "#555555";
     var ruutuTekstuuri = document.getElementById("ruutuTekstuuri");
+    var pShadow = document.getElementById("30pShadow");
+
 
 </script>
 
@@ -92,34 +95,131 @@
             if (Model.RuutuTable[i, j].Seinat[0])
             {
                 <script>
-                    canvasContext.fillRect(@(i * 20-5), @(j * 20), 30, 5);
-                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20-5), @(j * 20), 20, 5);
+                    canvasContext.fillRect(@(i * 20), @(j * 20), 20, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20), 20, 5);
+                    //canvasContext.drawImage(pShadow, @(i * 20), @(j * 20), 20, 1);
+                    //canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+4), 20, 1);
                 </script>
             }
             if (Model.RuutuTable[i, j].Seinat[1])
             {
                 <script>
-                    canvasContext.fillRect(@(i * 20 + 15), @(j * 20-5), 5, 30);
-                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20 + 15), @(j * 20-5), 5, 20);
+                    canvasContext.fillRect(@(i * 20 + 15), @(j * 20), 5, 20);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20 + 15), @(j * 20), 5, 20);
+                    //canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20), 1, 20);
+                    //canvasContext.drawImage(pShadow, @(i * 20+19), @(j * 20), 1, 20);
                 </script>
             }
             if (Model.RuutuTable[i, j].Seinat[2])
             {
                 <script>
-                    canvasContext.fillRect(@(i * 20-5), @(j * 20+15), 30, 5);
-                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20-5), @(j * 20+15), 20, 5);
+                    canvasContext.fillRect(@(i * 20), @(j * 20+15), 20, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20+15), 20, 5);
+                    //canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+15), 20, 1);
+                    //canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+19), 20, 1);
                 </script>
             }
             if (Model.RuutuTable[i, j].Seinat[3])
             {
                 <script>
-                    canvasContext.fillRect(@(i * 20), @(j * 20-5), 5, 30);
-                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20-5), 5, 20);
+                    canvasContext.fillRect(@(i * 20), @(j * 20), 5, 20);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20), 5, 20);
+                    //canvasContext.drawImage(pShadow, @(i * 20), @(j * 20), 1, 20);
+                    //canvasContext.drawImage(pShadow, @(i * 20+4), @(j * 20), 1, 20);
+                </script>
+            }
+            if (Model.RuutuTable[i, j].Kulmat[0])
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20), @(j * 20), 5, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20), 5, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20), 5, 1);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+4), @(j * 20), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+4), 5, 1);
+                </script>
+            }
+            if (Model.RuutuTable[i, j].Kulmat[1])
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20+15), @(j * 20), 5, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20+15), @(j * 20), 5, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20), 5, 1);
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+19), @(j * 20), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20+4), 5, 1);
+                </script>
+            }
+            if (Model.RuutuTable[i, j].Kulmat[2])
+            {
+<script>
+                    canvasContext.fillRect(@(i * 20+15), @(j * 20+15), 5, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20+15), @(j * 20+15), 5, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20+15), 5, 1);
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20+15), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+19), @(j * 20+15), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20+19), 5, 1);
+</script>
+            }
+            if (Model.RuutuTable[i, j].Kulmat[3])
+            {
+<script>
+                    canvasContext.fillRect(@(i * 20), @(j * 20+15), 5, 5);
+                    canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20+15), 5, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+15), 5, 1);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+15), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20+4), @(j * 20+15), 1, 5);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+19), 5, 1);
+</script>
+            }
+        }
+    }
+}
+
+<script>
+    canvasContext.stroke();
+    canvasContext.beginPath();
+</script>
+
+@for (int i = Model.MinX; i <= Model.MaxX; i++)
+{
+    for (int j = Model.MinY; j <= Model.MaxY; j++)
+    {
+        if (!Model.RuutuTable[i, j].OnkoAvoin)
+        {
+            if (Model.RuutuTable[i, j].Seinat[0])
+            {
+                <script>
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20), 20, 1);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+4), 20, 1);
+                </script>
+            }
+            if (Model.RuutuTable[i, j].Seinat[1])
+            {
+                <script>
+                    canvasContext.drawImage(pShadow, @(i * 20+15), @(j * 20), 1, 20);
+                    canvasContext.drawImage(pShadow, @(i * 20+19), @(j * 20), 1, 20);
+                </script>
+            }
+            if (Model.RuutuTable[i, j].Seinat[2])
+            {
+                <script>
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+15), 20, 1);
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20+19), 20, 1);
+                </script>
+            }
+            if (Model.RuutuTable[i, j].Seinat[3])
+            {
+                <script>
+                    canvasContext.drawImage(pShadow, @(i * 20), @(j * 20), 1, 20);
+                    canvasContext.drawImage(pShadow, @(i * 20+4), @(j * 20), 1, 20);
                 </script>
             }
         }
     }
 }
+
+
 
 <script>
     canvasContext.stroke();
@@ -200,6 +300,7 @@
     //var varjoKulma_2 = document.getElementById("varjoKulma_2");
     //canvasContext.drawImage(varjoKulma_2, 160, 140);
     canvasContext.stroke();
+    canvasContext.drawImage(30pShadow, 180, 180, 20, 2);
     //canvasContext.beginPath();
 
 
@@ -231,10 +332,10 @@
 
     <script>
         var testiContext = document.getElementById("testiCanvas").getContext("2d");
-        
+
         testiContext.drawImage(ruutuLaatta, 20, 20);
 
-        
+
 
 
         //var alphaGradient = testiContext.createLinearGradient(20, 20, 20, 40);
