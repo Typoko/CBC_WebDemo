@@ -1,4 +1,4 @@
-﻿@model ASPNETWebDemo.Models.Ruutu[,]
+﻿@model ASPNETWebDemo.Models.Kartta
 
 @{
     ViewData["Title"] = "KartanMuunnos";
@@ -51,20 +51,22 @@
         }
     </table>
 *@
-<canvas id="karttaCanvas" width="1000" height="1000" style="background-color:#FFFFFF">
+<canvas id="karttaCanvas" width="@Model.TulosteX" height="@Model.TulosteY" style="background-color:#FFFFFF">
 </canvas>
 
 <script>
     var canvasContext = document.getElementById("karttaCanvas").getContext("2d");
+    canvasContext.translate(-(@Model.MinX*20), -(@Model.MinY*20));
+    //canvasContext.transform(1,0,0,1,-(@Model.MinX*20),-(@Model.MinY*20));
     canvasContext.beginPath();
     canvasContext.fillStyle = "#333333";
 </script>
 
-@for (int i = 0; i < 50; i++)
+@for (int i = Model.MinX; i <= Model.MaxX; i++)
 {
-    for (int j = 0; j < 50; j++)
+    for (int j = Model.MinY; j <= Model.MaxY; j++)
     {
-        if (!Model[i, j].OnkoAvoin)
+        if (!Model.RuutuTable[i, j].OnkoAvoin)
         {
             <script>
                 canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
@@ -77,36 +79,38 @@
     canvasContext.stroke();
     canvasContext.beginPath();
     canvasContext.fillStyle = "#555555";
+    var ruutuTekstuuri = document.getElementById("ruutuTekstuuri");
+
 </script>
 
-@for (int i = 0; i < 50; i++)
+@for (int i = Model.MinX; i <= Model.MaxX; i++)
 {
-    for (int j = 0; j < 50; j++)
+    for (int j = Model.MinY; j <= Model.MaxY; j++)
     {
-        if (!Model[i, j].OnkoAvoin)
+        if (!Model.RuutuTable[i, j].OnkoAvoin)
         {
-            if (Model[i, j].Seinat[0])
+            if (Model.RuutuTable[i, j].Seinat[0])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20-5), @(j * 20), 30, 5);
                     canvasContext.drawImage(ruutuTekstuuri, @(i * 20-5), @(j * 20), 20, 5);
                 </script>
             }
-            if (Model[i, j].Seinat[1])
+            if (Model.RuutuTable[i, j].Seinat[1])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20 + 15), @(j * 20-5), 5, 30);
                     canvasContext.drawImage(ruutuTekstuuri, @(i * 20 + 15), @(j * 20-5), 5, 20);
                 </script>
             }
-            if (Model[i, j].Seinat[2])
+            if (Model.RuutuTable[i, j].Seinat[2])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20-5), @(j * 20+15), 30, 5);
                     canvasContext.drawImage(ruutuTekstuuri, @(i * 20-5), @(j * 20+15), 20, 5);
                 </script>
             }
-            if (Model[i, j].Seinat[3])
+            if (Model.RuutuTable[i, j].Seinat[3])
             {
                 <script>
                     canvasContext.fillRect(@(i * 20), @(j * 20-5), 5, 30);
@@ -126,14 +130,13 @@
     //var varjo_1 = document.getElementById("varjo_1");
     //var varjo_2 = document.getElementById("varjo_2");
     //var varjo_3 = document.getElementById("varjo_3");
-
 </script>
 
-@for (int i = 0; i < 50; i++)
+@for (int i = Model.MinX; i <= Model.MaxX; i++)
 {
-    for (int j = 0; j < 50; j++)
+    for (int j = Model.MinY; j <= Model.MaxY; j++)
     {
-        if (Model[i, j].OnkoAvoin)
+        if (Model.RuutuTable[i, j].OnkoAvoin)
         {
             <script>
                 canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
@@ -141,54 +144,53 @@
                 canvasContext.drawImage(ruutuTekstuuri, @(i * 20), @(j * 20));
             </script>
 
-            if (Model[i, j].Seinat[0])
+            if (Model.RuutuTable[i, j].Seinat[0])
             {
                 <script>
                     canvasContext.drawImage(varjo_0, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Seinat[1])
+            if (Model.RuutuTable[i, j].Seinat[1])
             {
                 <script>
                     canvasContext.drawImage(varjo_1, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Seinat[2])
+            if (Model.RuutuTable[i, j].Seinat[2])
             {
                 <script>
                     canvasContext.drawImage(varjo_2, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Seinat[3])
+            if (Model.RuutuTable[i, j].Seinat[3])
             {
                 <script>
                     canvasContext.drawImage(varjo_3, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Kulmat[0])
+            if (Model.RuutuTable[i, j].Kulmat[0])
             {
                 <script>
                     canvasContext.drawImage(varjoKulma_0, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Kulmat[1])
+            if (Model.RuutuTable[i, j].Kulmat[1])
             {
                 <script>
                     canvasContext.drawImage(varjoKulma_1, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Kulmat[2])
+            if (Model.RuutuTable[i, j].Kulmat[2])
             {
                 <script>
                     canvasContext.drawImage(varjoKulma_2, @(i * 20), @(j * 20));
                 </script>
             }
-            if (Model[i, j].Kulmat[3])
+            if (Model.RuutuTable[i, j].Kulmat[3])
             {
-<script>
+                <script>
                     canvasContext.drawImage(varjoKulma_3, @(i * 20), @(j * 20));
-                    canvasContext.drawImage(varjoKulma_3, @(i * 20), @(j * 20));
-</script>
+                </script>
             }
         }
     }
@@ -229,7 +231,13 @@
 
     <script>
         var testiContext = document.getElementById("testiCanvas").getContext("2d");
-        var alphaGradient = testiContext.createLinearGradient(20, 20, 20, 40);
+        
+        testiContext.drawImage(ruutuLaatta, 20, 20);
+
+        
+
+
+        //var alphaGradient = testiContext.createLinearGradient(20, 20, 20, 40);
         //testiContext.beginPath();
         //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 0.3)');
         //alphaGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
@@ -239,10 +247,10 @@
         //testiContext.fillRect(0, 0, 200, 200);
         //testiContext.stroke();
 
-        testiContext.beginPath();
-        alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
-        alphaGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        testiContext.fillStyle = alphaGradient;
-        testiContext.fillRect(20, 20, 20, 20);
-        canvasContext.stroke();
+        //testiContext.beginPath();
+        //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+        //alphaGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+        //testiContext.fillStyle = alphaGradient;
+        //testiContext.fillRect(20, 20, 20, 20);
+        //testiContext.stroke();
     </script>*@
