@@ -5,12 +5,14 @@ v Nothuone ruutujen värjäys
 v Nothuone ruutujen seinien piirto
 v gradient shadowit huoneeseen ja seiniin
 / tekstuurit pinnoille
- - iso kuva mistä pala ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
+ - iso kuva mistä pala || ctx.drawImage(image, sx, sy, sWidth, sHeight, dx, dy, dWidth, dHeight);
  
 ! Alascriptistä siirto oikein toteutettuun scriptiipaikkaan ja .js tiedostoon
 
+* Kartan analysointi
+- Värien analysointi vaikka ei ihan musta
 
-* Uploadaus / Käyttöliittymä
+* Uploadaus / Käyttöliittymä (https://getbootstrap.com/docs/4.4/components/alerts/)
 - uploadaus
 - tiedoston otto käsittelyyn
 - kuvan analysointi uploadattuun kuvaan

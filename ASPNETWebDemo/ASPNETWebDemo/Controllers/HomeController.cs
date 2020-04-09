@@ -24,10 +24,10 @@ namespace ASPNETWebDemo.Controllers
             _logger = logger;
         }
         
-        public IActionResult Index()
-        {
-            return View();
-        }
+        //public IActionResult Index()
+        //{
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {
@@ -77,12 +77,12 @@ namespace ASPNETWebDemo.Controllers
 
         // private readonly IWebHostEnvironment _env;
 
-        public IActionResult KartanMuunnos()
+        public IActionResult Index()
         {
-            ViewBag.KarttaPath = "/TestFolder/testiKartta2.jpg";
+            ViewBag.KarttaPath = "/TestFolder/testiKartta3.jpg";
             //var karttaLadattu = Image<Rgba32>.Load(_env.WebRootPath + "/testiKartta.jpg");
             Kartta kartta = new Kartta();
-            kartta.KarttaKuva = Image.Load<Rgba32>("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/testiKartta2.jpg");
+            kartta.KarttaKuva = Image.Load<Rgba32>("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/testiKartta3.jpg");
             
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/20, kartta.KarttaKuva.Height/20];
 
@@ -120,9 +120,9 @@ namespace ASPNETWebDemo.Controllers
 
         public bool OnkoSeinaValissa(int x, int y, Image<Rgba32> kuva)
         {
-            for(int h = 0;h<5;h++)
+            for(int h = 0;h<7;h++)
             {
-                if(kuva[x*20+10,y*20+15+h] == Rgba32.Black || kuva[x*20+10,(y+1)*20+h] == Rgba32.Black)
+                if(kuva[x*20+10,y*20+13+h] == Rgba32.Black || kuva[x*20+10,(y+1)*20+h] == Rgba32.Black)
                 {
                     return true;
                 }
