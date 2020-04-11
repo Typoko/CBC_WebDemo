@@ -178,77 +178,114 @@ namespace ASPNETWebDemo.Controllers
 
         public void SetRuutuSeinaStatus(Ruutu[,] ruudut)
         {
+            int x = ruudut.GetLength(0);
+            int y = ruudut.GetLength(1);
+
             //käydään läpi keskiruudut ja reunaruudut erikseen, ettei tule out of bounds viittauksia
             //vältytään joka ruudun kohdalla out of bounds testauksen tarpeesta
-            for (int i = 1; i < ruudut.GetLength(0)-1; i++)
+            for (int i = 1; i < x-1; i++)
             {
-                for (int j = 1; j < ruudut.GetLength(1)-1; j++)
+                for (int j = 1; j < y-1; j++)
                 {
-                    if(ruudut[i,j].OnkoAvoin == false)
+                    bool OnkoRuutu = ruudut[i, j].OnkoAvoin;
+                    //Testataan onko eri tyyppinen ruutu vieressä. Jos on niin välissä on seinä.
+                    if (ruudut[i, j - 1].OnkoAvoin == !OnkoRuutu)
                     {
-                        if(ruudut[i,j-1].OnkoAvoin == true)
-                        {
-                            ruudut[i, j].Seinat[0] = true;
-                        }
-                        if (ruudut[i+1, j].OnkoAvoin == true)
-                        {
-                            ruudut[i, j].Seinat[1] = true;
-                        }
-                        if (ruudut[i, j + 1].OnkoAvoin == true)
-                        {
-                            ruudut[i, j].Seinat[2] = true;
-                        }
-                        if (ruudut[i-1, j].OnkoAvoin == true)
-                        {
-                            ruudut[i, j].Seinat[3] = true;
-                        }
+                        ruudut[i, j].Seinat[0] = true;
                     }
-                    else
+                    if (ruudut[i + 1, j].OnkoAvoin == !OnkoRuutu)
                     {
-                        if (ruudut[i, j - 1].OnkoAvoin == false)
-                        {
-                            ruudut[i, j].Seinat[0] = true;
-                        }
-                        if (ruudut[i + 1, j].OnkoAvoin == false)
-                        {
-                            ruudut[i, j].Seinat[1] = true;
-                        }
-                        if (ruudut[i, j + 1].OnkoAvoin == false)
-                        {
-                            ruudut[i, j].Seinat[2] = true;
-                        }
-                        if (ruudut[i - 1, j].OnkoAvoin == false)
-                        {
-                            ruudut[i, j].Seinat[3] = true;
-                        }
+                        ruudut[i, j].Seinat[1] = true;
+                    }
+                    if (ruudut[i, j + 1].OnkoAvoin == !OnkoRuutu)
+                    {
+                        ruudut[i, j].Seinat[2] = true;
+                    }
+                    if (ruudut[i - 1, j].OnkoAvoin == !OnkoRuutu)
+                    {
+                        ruudut[i, j].Seinat[3] = true;
                     }
                 }
-                //Erikseen tarkastettavat reunat
-                //if (ruudut[i, 1].OnkoAvoin == true)
-                //{
-                //    ruudut[i, 0].Seinat[2] = true;
-                //}
-                //if (ruudut[ruudut.GetLength(0)-2, i].OnkoAvoin == true)
-                //{
-                //    ruudut[ruudut.GetLength(0)-1, i].Seinat[3] = true;
-                //}
-                //if (ruudut[i, ruudut.GetLength(1)-2].OnkoAvoin == true)
-                //{
-                //    ruudut[i, ruudut.GetLength(1)-1].Seinat[0] = true;
-                //}
-                //if (ruudut[1, i].OnkoAvoin == true)
-                //{
-                //    ruudut[0, i].Seinat[1] = true;
-                //}
+            }
+            
+            //Reunat erikseen (ei kulmat) ettei mennä out of bounds ruudukossa
+            //Pystysuunta
+            for(int j = 1;j < y-1; j++)
+            {
+                bool OnkoRuutu = ruudut[0, j].OnkoAvoin;
+                bool OnkoRuutu2 = ruudut[x-1, j].OnkoAvoin;
+
+                if (ruudut[0, j - 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[0, j].Seinat[0] = true;
+                }
+                if (ruudut[1, j].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[0, j].Seinat[1] = true;
+                }
+                if (ruudut[0, j + 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[0, j].Seinat[2] = true;
+                }
+
+                if (ruudut[x-1, j - 1].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[x - 1, j].Seinat[0] = true;
+                }
+                if (ruudut[x - 1, j + 1].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[x - 1, j].Seinat[2] = true;
+                }
+                if (ruudut[x - 2, j].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[x - 1, j].Seinat[3] = true;
+                }
+            }
+            //Vaakasuunta
+            for (int i = 1; i < x - 1; i++)
+            {
+                bool OnkoRuutu = ruudut[i, 0].OnkoAvoin;
+                bool OnkoRuutu2 = ruudut[i, y-1].OnkoAvoin;
+
+                if (ruudut[i+1, 0].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[i, 0].Seinat[1] = true;
+                }
+                if (ruudut[i, 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[i, 0].Seinat[2] = true;
+                }
+                if (ruudut[i-1, 0].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[i, 0].Seinat[3] = true;
+                }
+
+                if (ruudut[i, y-2].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[i, y-1].Seinat[0] = true;
+                }
+                if (ruudut[i+1, y-1].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[i, y - 1].Seinat[1] = true;
+                }
+                if (ruudut[i - 1, y - 1].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[i, y - 1].Seinat[3] = true;
+                }
             }
         }
+
+
 
         public void SetRuutuKulmaStatus(Ruutu[,] ruudut)
         {
             bool ruutuStatus = false;
-            for (int i = 1; i < ruudut.GetLength(0)-1; i++)
+            int x = ruudut.GetLength(0);
+            int y = ruudut.GetLength(1);
+
+            for (int i = 1; i < x-1; i++)
             {
-                for (int j = 1; j < ruudut.GetLength(1)-1; j++)
+                for (int j = 1; j < y-1; j++)
                 {
                     ruutuStatus = ruudut[i, j].OnkoAvoin;
 
@@ -268,26 +305,80 @@ namespace ASPNETWebDemo.Controllers
                     {
                         ruudut[i, j].Kulmat[3] = true;
                     }
-                    
                 }
-                //Erikseen tarkastettavat reunat
-                //if (ruudut[i, 1].OnkoAvoin == true)
-                //{
-                //    ruudut[i, 0].Seinat[2] = true;
-                //}
-                //if (ruudut[48, i].OnkoAvoin == true)
-                //{
-                //    ruudut[49, i].Seinat[3] = true;
-                //}
-                //if (ruudut[i, 48].OnkoAvoin == true)
-                //{
-                //    ruudut[i, 49].Seinat[0] = true;
-                //}
-                //if (ruudut[1, i].OnkoAvoin == true)
-                //{
-                //    ruudut[0, i].Seinat[1] = true;
-                //}
             }
+
+            //Reuna ruudut erikseen ettei mennä out of bounds ruudukossa. Kulmaruutujen kulmat erikseen.
+            //Pystysuunta
+            for (int j = 1; j < y - 1; j++)
+            {
+                bool OnkoRuutu = ruudut[0, j].OnkoAvoin;
+                bool OnkoRuutu2 = ruudut[x - 1, j].OnkoAvoin;
+
+               
+                if (ruudut[0, j - 1].OnkoAvoin == OnkoRuutu && ruudut[0 + 1, j].OnkoAvoin == OnkoRuutu && ruudut[0 + 1, j - 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[0, j].Kulmat[1] = true;
+                }
+                if (ruudut[0, j + 1].OnkoAvoin == OnkoRuutu && ruudut[0 + 1, j].OnkoAvoin == OnkoRuutu && ruudut[0 + 1, j + 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[0, j].Kulmat[2] = true;
+                }
+
+                if (ruudut[x - 1, j - 1].OnkoAvoin == OnkoRuutu2 && ruudut[x - 2, j].OnkoAvoin == OnkoRuutu2 && ruudut[x - 2, j - 1].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[x - 1, j].Kulmat[0] = true;
+                }
+                if (ruudut[x - 1, j + 1].OnkoAvoin == OnkoRuutu2 && ruudut[x - 2, j].OnkoAvoin == OnkoRuutu2 && ruudut[x - 2, j + 1].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[x - 1, j].Kulmat[3] = true;
+                }
+                                
+            }
+            //Vaakasuunta
+            for (int i = 1; i < x - 1; i++)
+            {
+                bool OnkoRuutu = ruudut[i, 0].OnkoAvoin;
+                bool OnkoRuutu2 = ruudut[i, y - 1].OnkoAvoin;
+
+                if (ruudut[i+1, 0].OnkoAvoin == OnkoRuutu && ruudut[i, 1].OnkoAvoin == OnkoRuutu && ruudut[i+1, 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[i, 0].Kulmat[2] = true;
+                }
+                if (ruudut[i-1, 0].OnkoAvoin == OnkoRuutu && ruudut[i, 1].OnkoAvoin == OnkoRuutu && ruudut[i-1, 1].OnkoAvoin == !OnkoRuutu)
+                {
+                    ruudut[i, 0].Kulmat[3] = true;
+                }
+
+                if (ruudut[i-1, y - 1].OnkoAvoin == OnkoRuutu2 && ruudut[i, y - 2].OnkoAvoin == OnkoRuutu2 && ruudut[i-1, y - 2].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[i, y - 1].Kulmat[0] = true;
+                }
+                if (ruudut[i+1, y - 1].OnkoAvoin == OnkoRuutu2 && ruudut[i, y - 2].OnkoAvoin == OnkoRuutu2 && ruudut[i+1, y - 2].OnkoAvoin == !OnkoRuutu2)
+                {
+                    ruudut[i, y - 1].Kulmat[1] = true;
+                }
+            }
+
+            //Vielä kaikki neljä ruudukon kulmaa
+            //voidaan verrata suoraan kulman suuntaiseen, koska viereiset on aina suljettuja
+            if (ruudut[1, 1].OnkoAvoin)
+            {
+                ruudut[0, 0].Kulmat[2] = true;
+            }
+            if (ruudut[x-2, 1].OnkoAvoin)
+            {
+                ruudut[x-1, 0].Kulmat[3] = true;
+            }
+            if (ruudut[x-2, y-2].OnkoAvoin)
+            {
+                ruudut[x-1, y-1].Kulmat[0] = true;
+            }
+            if (ruudut[1, y-2].OnkoAvoin)
+            {
+                ruudut[0, y-1].Kulmat[1] = true;
+            }
+
         }
 
         public void SetKuvaMinMaxRuudut(Kartta kKartta)

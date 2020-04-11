@@ -62,9 +62,10 @@
     //canvasContext.transform(1,0,0,1,-(@Model.MinX*20),-(@Model.MinY*20));
     canvasContext.beginPath();
     canvasContext.fillStyle = "#333333";
+    canvasContext.fillRect(0, 0, @((Model.MaxX+1)*20), @((Model.MaxY+1)*20));
 </script>
 
-@for (int i = Model.MinX; i <= Model.MaxX; i++)
+@*@for (int i = Model.MinX; i <= Model.MaxX; i++)
 {
     for (int j = Model.MinY; j <= Model.MaxY; j++)
     {
@@ -75,7 +76,7 @@
             </script>
         }
     }
-}
+}*@
 
 <script>
     canvasContext.stroke();

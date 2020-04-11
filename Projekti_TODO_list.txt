@@ -10,7 +10,7 @@ v gradient shadowit huoneeseen ja seiniin
 ! Alascriptistä siirto oikein toteutettuun scriptiipaikkaan ja .js tiedostoon
 
 * Kartan analysointi
-- Värien analysointi vaikka ei ihan musta
+v Värien analysointi vaikka ei ihan musta
 
 * Uploadaus / Käyttöliittymä (https://getbootstrap.com/docs/4.4/components/alerts/)
 - uploadaus
