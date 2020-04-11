@@ -118,11 +118,25 @@ namespace ASPNETWebDemo.Controllers
             return View(kartta);
         }
 
+        public bool OnkoSeinaPikseli(Rgba32 pikseli)
+        {
+            //tummat ja harmaat sävyt lasketaan seiniksi
+            if (pikseli.R < 80 && pikseli.G < 80 && pikseli.B < 80)
+            {
+                return true;
+            }
+            //?Lisätään siniselle vielä erikseen kuulakärkikynää varten?
+
+            //Ei sopivaa väriä
+            return false;
+        }
+
         public bool OnkoSeinaValissa(int x, int y, Image<Rgba32> kuva)
         {
+            
             for(int h = 0;h<7;h++)
             {
-                if(kuva[x*20+10,y*20+13+h] == Rgba32.Black || kuva[x*20+10,(y+1)*20+h] == Rgba32.Black)
+                if(OnkoSeinaPikseli(kuva[x*20+10,y*20+13+h]) || OnkoSeinaPikseli(kuva[x*20+10,(y+1)*20+h]))
                 {
                     return true;
                 }
