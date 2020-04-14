@@ -21,8 +21,13 @@ v Värien analysointi vaikka ei ihan musta
 
 * Kuvan skaalautuvuus
 v ei 1k per 1k ainoastaan
-/ ruudukko skaalautuu analysoitujen ruutujen mukaan
- - Rajatapaus jos reunassa niin kulmat ei toteutettu vielä!
+v ruudukko skaalautuu analysoitujen ruutujen mukaan
  
 * Ruutukoon skaalautuvuus
 - mahdollisuus säätää ruudun kokoa ettei ole 20px
+
+//
+https://www.teamscs.com/2015/09/asp-net-mvc-5-passing-data-view-controller/
+https://forums.asp.net/t/1824226.aspx?How+to+Pass+Model+from+View+Create+submit+to+Controller+
+html.beginform testi
+//

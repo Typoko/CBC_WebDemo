@@ -7,11 +7,14 @@ using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
+using SixLabors.ImageSharp.Processing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ASPNETWebDemo.Models;
 using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Net;
 
 namespace ASPNETWebDemo.Controllers
 {
@@ -75,20 +78,31 @@ namespace ASPNETWebDemo.Controllers
             return View(asiakkaat);
         }
 
-        // private readonly IWebHostEnvironment _env;
 
-        public IActionResult Index()
+        public IActionResult Index(string id)
         {
             ViewBag.KarttaPath = "/TestFolder/testiKartta3.jpg";
-            //var karttaLadattu = Image<Rgba32>.Load(_env.WebRootPath + "/testiKartta.jpg");
+            ViewBag.SivustoPath = "https://localhost:44340/home/index/";
             Kartta kartta = new Kartta();
-            kartta.KarttaKuva = Image.Load<Rgba32>("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/testiKartta3.jpg");
+
             
+
+            if (string.IsNullOrEmpty(id))
+            {
+                kartta.KarttaKuva = Image.Load<Rgba32>("wwwroot/TestFolder/testiKartta3.jpg");
+            }
+            else
+            {
+                ViewBag.KarttaPath = "https://i.imgur.com/" + id;
+                // lataus testailua! TEMP // https://i.imgur.com/AbsNs83.jpg
+                WebClient wc = new WebClient();
+                Stream st = wc.OpenRead("https://i.imgur.com/" + id);
+                Image<Rgba32> im = Image.Load<Rgba32>(st);
+                kartta.KarttaKuva = im;
+            }
+
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/20, kartta.KarttaKuva.Height/20];
 
-            //Image<Rgba32> karttaLadattu = Image.Load<Rgba32>("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/testiKartta.jpg");
-            //Ruutu[,] RuutuStatusTable = new Ruutu[50, 50];
-            //bool RuutuTyyppi = false;
 
             //En ymmärrä miksi, mutta new Ruutu[50,50]; ei täytä taulukkoa uusilla instansseilla.
             //Funktio täyttää taulun uusilla sen sijaan.
@@ -102,18 +116,6 @@ namespace ASPNETWebDemo.Controllers
 
             SetKuvaMinMaxRuudut(kartta);
 
-            //kartta.TulosteX = 1000;
-            //kartta.TulosteY = 1000;
-            
-            //karttaLadattu[1, 1] = Rgba32.Red;
-
-            //var kartta = new Image<Rgba32>(400, 400);
-
-            //ViewBag.Karttatesti = "fail";
-            //karttaLadattu[1, 1] = Rgba32.Red;
-
-            //if (karttaLadattu[1, 1] == Rgba32.Red)
-            //    ViewBag.Karttatesti = "success";
 
             return View(kartta);
         }
