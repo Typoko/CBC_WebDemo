@@ -5,13 +5,13 @@
     ViewData["Title"] = "KartanMuunnos";
 }
 
-    <div style="height:200px" class="w-100">
-        <h3>Syötä tiedosto:</h3>
-        <button onclick="myFunction()">Click me</button><br>
-        <input type="text" id="imgPath"><br>
-        <p>AbsNs83.jpg</p>
-    </div>
+<div class="w-100 pb-1">
+    <h3>Input Image:</h3>
+    <button onclick="myFunction()" class="float-left">Input Imgur Picture Link</button>
+    <input type="text" id="imgPath" class="float-left"><br><br>
 
+    <p>https://i.imgur.com/AbsNs83.jpg</p>
+</div>
 
 
 <img src="@ViewBag.KarttaPath" class="float-left">
@@ -73,17 +73,17 @@
 </script>
 
 @*@for (int i = Model.MinX; i <= Model.MaxX; i++)
-{
-    for (int j = Model.MinY; j <= Model.MaxY; j++)
     {
-        if (!Model.RuutuTable[i, j].OnkoAvoin)
+        for (int j = Model.MinY; j <= Model.MaxY; j++)
         {
-            <script>
-                canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
-            </script>
+            if (!Model.RuutuTable[i, j].OnkoAvoin)
+            {
+                <script>
+                    canvasContext.fillRect(@(i * 20), @(j * 20), 20, 20);
+                </script>
+            }
         }
-    }
-}*@
+    }*@
 
 <script>
     canvasContext.stroke();
@@ -312,7 +312,7 @@
     //canvasContext.drawImage(30pShadow, 180, 180, 20, 2);
     //canvasContext.beginPath();
     function myFunction() {
-        window.location.href = "\\home\\index\\" + document.getElementById("imgPath").value;
+        window.location.href = "\\home\\index\\?imageUrl=" + document.getElementById("imgPath").value;
     }
 
 </script>

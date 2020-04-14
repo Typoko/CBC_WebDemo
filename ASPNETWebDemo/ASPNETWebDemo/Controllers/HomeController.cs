@@ -79,36 +79,48 @@ namespace ASPNETWebDemo.Controllers
         }
 
 
-        public IActionResult Index(string id)
+        public IActionResult Index(string id, string imageUrl, string rKoko)
         {
             ViewBag.KarttaPath = "/TestFolder/testiKartta3.jpg";
             ViewBag.SivustoPath = "https://localhost:44340/home/index/";
             Kartta kartta = new Kartta();
+            int RuutuKoko;
 
-            
+            //ViewBag.testi = testi;
 
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(rKoko))
             {
-                kartta.KarttaKuva = Image.Load<Rgba32>("wwwroot/TestFolder/testiKartta3.jpg");
+                RuutuKoko = 20;
             }
             else
             {
-                ViewBag.KarttaPath = "https://i.imgur.com/" + id;
+                RuutuKoko = Convert.ToInt32(rKoko);
+            }
+
+            if (string.IsNullOrEmpty(imageUrl))
+            {
+                kartta.KarttaKuva = Image.Load<Rgba32>("wwwroot"+ ViewBag.KarttaPath);
+            }
+            else
+            {
+                //ViewBag.KarttaPath = "https://i.imgur.com/" + id;
+                ViewBag.KarttaPath = imageUrl;
                 // lataus testailua! TEMP // https://i.imgur.com/AbsNs83.jpg
                 WebClient wc = new WebClient();
-                Stream st = wc.OpenRead("https://i.imgur.com/" + id);
-                Image<Rgba32> im = Image.Load<Rgba32>(st);
+                //Stream st = wc.OpenRead("https://i.imgur.com/" + id);
+                Stream st = wc.OpenRead(imageUrl);
+                Image <Rgba32> im = Image.Load<Rgba32>(st);
                 kartta.KarttaKuva = im;
             }
 
-            kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/20, kartta.KarttaKuva.Height/20];
+            kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/ RuutuKoko, kartta.KarttaKuva.Height/ RuutuKoko];
 
 
             //En ymmärrä miksi, mutta new Ruutu[50,50]; ei täytä taulukkoa uusilla instansseilla.
             //Funktio täyttää taulun uusilla sen sijaan.
             SetRuutuInstances(kartta.RuutuTable);
 
-            SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva);
+            SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva, RuutuKoko);
 
             SetRuutuSeinaStatus(kartta.RuutuTable);
 
@@ -122,8 +134,9 @@ namespace ASPNETWebDemo.Controllers
 
         public bool OnkoSeinaPikseli(Rgba32 pikseli)
         {
+            int toleranssi = 80;
             //tummat ja harmaat sävyt lasketaan seiniksi
-            if (pikseli.R < 80 && pikseli.G < 80 && pikseli.B < 80)
+            if (pikseli.R <= toleranssi && pikseli.G <= toleranssi && pikseli.B <= toleranssi)
             {
                 return true;
             }
@@ -133,12 +146,14 @@ namespace ASPNETWebDemo.Controllers
             return false;
         }
 
-        public bool OnkoSeinaValissa(int x, int y, Image<Rgba32> kuva)
+        public bool OnkoSeinaValissa(int x, int y, Image<Rgba32> kuva, int ruuKoko)
         {
-            
-            for(int h = 0;h<7;h++)
+            int ruuPuolvali = ruuKoko / 2;
+            int ruuToleranssi = Convert.ToInt32((float)ruuKoko * 0.33f);
+
+            for (int h = 0;h<ruuToleranssi; h++)
             {
-                if(OnkoSeinaPikseli(kuva[x*20+10,y*20+13+h]) || OnkoSeinaPikseli(kuva[x*20+10,(y+1)*20+h]))
+                if(OnkoSeinaPikseli(kuva[x*ruuKoko + ruuPuolvali, y*ruuKoko + (ruuKoko-ruuToleranssi)+h]) || OnkoSeinaPikseli(kuva[x*ruuKoko + ruuPuolvali, (y+1)*ruuKoko + h]))
                 {
                     return true;
                 }
@@ -147,7 +162,7 @@ namespace ASPNETWebDemo.Controllers
             return false;
         }
 
-        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva)
+        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko)
         {
             bool RuutuTyyppi = false;
 
@@ -157,7 +172,7 @@ namespace ASPNETWebDemo.Controllers
                 for (int j = 0; j < ruudut.GetLength(1)-1; j++)
                 {
                     ruudut[i, j].OnkoAvoin = RuutuTyyppi;
-                    if (OnkoSeinaValissa(i, j, kuva))
+                    if (OnkoSeinaValissa(i, j, kuva, ruuKoko))
                     {
                         RuutuTyyppi = !RuutuTyyppi;
                     }
@@ -389,9 +404,9 @@ namespace ASPNETWebDemo.Controllers
             kKartta.MinY = kKartta.RuutuTable.GetLength(1)-1;
             kKartta.MaxX = 0;
             kKartta.MaxY = 0;
-            for (int i = 0; i < kKartta.RuutuTable.GetLength(0); i++)
+            for (int i = 1; i < kKartta.RuutuTable.GetLength(0)-1; i++)
             {
-                for (int j = 0; j < kKartta.RuutuTable.GetLength(1); j++)
+                for (int j = 1; j < kKartta.RuutuTable.GetLength(1)-1; j++)
                 {
                     if (kKartta.RuutuTable[i, j].OnkoAvoin)
                     {
