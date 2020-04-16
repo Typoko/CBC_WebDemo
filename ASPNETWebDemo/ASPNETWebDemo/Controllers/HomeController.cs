@@ -116,20 +116,53 @@ namespace ASPNETWebDemo.Controllers
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/ RuutuKoko, kartta.KarttaKuva.Height/ RuutuKoko];
 
 
-            //En ymmärrä miksi, mutta new Ruutu[50,50]; ei täytä taulukkoa uusilla instansseilla.
-            //Funktio täyttää taulun uusilla sen sijaan.
+            //Täytetään ruudukko tyhjillä instansseilla, ettei tule nulliin viittauksia
             SetRuutuInstances(kartta.RuutuTable);
 
+            //Analysoidaan karttakuva ruuduiksi
             SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva, RuutuKoko);
 
+            //Selvitetään missä väleissä on seiniä
             SetRuutuSeinaStatus(kartta.RuutuTable);
 
+            //Selvitetään mitkä kulmat on relevantteja
             SetRuutuKulmaStatus(kartta.RuutuTable);
 
+            //Määritellään kuvan reunat, että saadaan kartasta tyhjää pois
             SetKuvaMinMaxRuudut(kartta);
+
+            LuoJson(kartta);
+
+            //vanha toteutus
+            //string karttaJson = Newtonsoft.Json.JsonConvert.SerializeObject(kartta);
+            //ViewBag.karttaJson = karttaJson;
+
+            
 
 
             return View(kartta);
+        }
+
+        //Luodaan Json tarvittavista muuttujista
+        //Tehdään näin koska 2 ulotteinen taulukko jonka sisällä on olioita ei tuntunut menevän läpi
+        public void LuoJson(Kartta k)
+        {
+
+            string karttaTauluJson = "{\"RuutuTable\":[";
+
+            for (int i = k.MinX; i <= k.MaxX; i++)
+            {
+                for (int j = k.MinY; j <= k.MaxY; j++)
+                {
+                    karttaTauluJson += Newtonsoft.Json.JsonConvert.SerializeObject(k.RuutuTable[i, j]) + ",";
+                }
+            }
+            karttaTauluJson = karttaTauluJson.Remove(karttaTauluJson.Length - 1);
+            karttaTauluJson += "]";
+
+            karttaTauluJson += ",\"MinX\":"+ 0 + ",\"MinY\":" + 0 + ",\"MaxX\":" + (k.MaxX-k.MinX+1) + ",\"MaxY\":" + (k.MaxY-k.MinY+1) + ",\"TulosteX\":" + k.TulosteX + ",\"TulosteY\":" + k.TulosteY + "}";
+            
+            ViewBag.karttaTauluJson = karttaTauluJson;
         }
 
         public bool OnkoSeinaPikseli(Rgba32 pikseli)

@@ -18,5 +18,10 @@ namespace ASPNETWebDemo.Models
         public int MaxY = 0;
         public int TulosteX = 0;
         public int TulosteY = 0;
+
+        public Kartta()
+        {
+
+        }
     }
 }
