@@ -81,7 +81,7 @@ namespace ASPNETWebDemo.Controllers
 
         public IActionResult Index(string id, string imageUrl, string rKoko)
         {
-            ViewBag.KarttaPath = "/TestFolder/testiKartta3.jpg";
+            ViewBag.KarttaPath = "/TestFolder/testiKartta.jpg";
             ViewBag.SivustoPath = "https://localhost:44340/home/index/";
             Kartta kartta = new Kartta();
             int RuutuKoko;
@@ -103,14 +103,13 @@ namespace ASPNETWebDemo.Controllers
             }
             else
             {
-                //ViewBag.KarttaPath = "https://i.imgur.com/" + id;
-                ViewBag.KarttaPath = imageUrl;
-                // lataus testailua! TEMP // https://i.imgur.com/AbsNs83.jpg
                 WebClient wc = new WebClient();
-                //Stream st = wc.OpenRead("https://i.imgur.com/" + id);
                 Stream st = wc.OpenRead(imageUrl);
                 Image <Rgba32> im = Image.Load<Rgba32>(st);
                 kartta.KarttaKuva = im;
+                ViewBag.KarttaPath = imageUrl;
+                ViewBag.KarttaX = kartta.KarttaKuva.Width;
+                ViewBag.KarttaY = kartta.KarttaKuva.Height;
             }
 
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/ RuutuKoko, kartta.KarttaKuva.Height/ RuutuKoko];
@@ -131,13 +130,9 @@ namespace ASPNETWebDemo.Controllers
             //Määritellään kuvan reunat, että saadaan kartasta tyhjää pois
             SetKuvaMinMaxRuudut(kartta);
 
+            //Luodaan Json konversio "käsin" kun multidimensional olio array ei tunnu menevän läpi vakiona
             LuoJson(kartta);
 
-            //vanha toteutus
-            //string karttaJson = Newtonsoft.Json.JsonConvert.SerializeObject(kartta);
-            //ViewBag.karttaJson = karttaJson;
-
-            
 
 
             return View(kartta);

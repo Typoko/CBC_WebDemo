@@ -11,41 +11,83 @@ var ruutuTekstuuri = document.getElementById("ruutuTekstuuri");
 var pShadow = document.getElementById("30pShadow");
 var canvasContext = document.getElementById("karttaCanvas").getContext("2d");
 
+var createButton = document.getElementById("createButton");
+var latausContext = document.getElementById("latausCanvas").getContext("2d");
+var karttaKuva = document.getElementById("karttaKuva");
+var imgOW = document.getElementById("imgOffsetWidth");
+var imgOH = document.getElementById("imgOffsetHeight");
+var imgSquare = document.getElementById("imgSquare");
 
 
-function loadWithImage()
+
+
+//Avetaan sivu uudestaan paramentrien kanssa
+function loadWithParameters()
 {
     window.location.href = "\\home\\index\\?imageUrl=" + document.getElementById("imgPath").value;
 
 }
 
-function createMap(Model) {
-    
-    //Alustetaan canvas kokonaan kopioitavaksi
-    canvasContext.translate(-(Model.MinX * 20), -(Model.MinY* 20));
-    canvasContext.beginPath();
-    canvasContext.fillStyle = "#333333";
-    canvasContext.fillRect(0, 0, ((Model.MaxX + 1) * 20), ((Model.MaxY + 1) * 20));
-    canvasContext.stroke();
+function loadWithImage() {    
+    latausContext.clearRect(0, 0, latausContext.width, latausContext.height);
+    latausContext.drawImage(karttaKuva, 0, 0);
+    drawGrid(karttaKuva.width, karttaKuva.height, imgSquare.value, imgOW.value, imgOH.value);
+}
 
-    for (let i = Model.MinX; i < Model.MaxX; i++)
-    {
-        for (let j = Model.MinY; j < Model.MaxY; j++)
-        {
-            if (Model.RuutuTable[i * Model.MaxY + j].OnkoAvoin) {
-                drawRuutu(i,j);
-            }
+function drawGrid(iWidth, iHeight, r, shiftX, shiftY) {
 
-            drawRuutuSeinat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
-            drawRuutuKulmat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
-            drawSeinaVarjo(i, j, Model.RuutuTable[i * Model.MaxY + j]);
-            
-        }
+    alert(iWidth + "\n" + iHeight + "\n" + r + "\n" + shiftX + "\n" + shiftY);
+
+    latausContext.strokeStyle = "red";
+    latausContext.lineWidth = 0.5;
+    latausContext.beginPath();
+    for (var x = +r + +shiftX; x < iWidth; x += +r) {
+        latausContext.moveTo(x, 0);
+        latausContext.lineTo(x, iHeight);
     }
 
-    document.getElementById("karttaKuva").style = "display:none";
-    document.getElementById("karttaCanvas").style = "";
+    for (var x = +r + +shiftY; x <= iHeight; x += +r) {
+        latausContext.moveTo(0,x);
+        latausContext.lineTo(iWidth, x);
+    }
+    latausContext.stroke();
+}
 
+
+function createMap(Model) {
+    
+    if (createButton.innerHTML == "Create Map") {
+
+        //Alustetaan canvas kokonaan kopioitavaksi
+        canvasContext.translate(-(Model.MinX * 20), -(Model.MinY * 20));
+        canvasContext.beginPath();
+        canvasContext.fillStyle = "#333333";
+        canvasContext.fillRect(0, 0, ((Model.MaxX + 1) * 20), ((Model.MaxY + 1) * 20));
+        canvasContext.stroke();
+
+        for (let i = Model.MinX; i < Model.MaxX; i++) {
+            for (let j = Model.MinY; j < Model.MaxY; j++) {
+                if (Model.RuutuTable[i * Model.MaxY + j].OnkoAvoin) {
+                    drawRuutu(i, j);
+                }
+
+                drawRuutuSeinat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
+                drawRuutuKulmat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
+                drawSeinaVarjo(i, j, Model.RuutuTable[i * Model.MaxY + j]);
+
+            }
+        }
+
+        document.getElementById("latausCanvas").style = "display:none";
+        document.getElementById("karttaCanvas").style = "";
+        createButton.innerHTML = "Return Image";
+    }
+    else {
+        document.getElementById("latausCanvas").style = "";
+        document.getElementById("karttaCanvas").style = "display:none";
+        createButton.innerHTML = "Create Map";
+    }
+    
 }
 
 function createMapTesti(obj) {
@@ -207,190 +249,5 @@ function drawSeinaVarjo(i, j, ruutu) {
     canvasContext.stroke();
 }
 
-
-
-
-
-
-
-
-//for (int i = Model.MinX; i <= Model.MaxX; i++)
-//{
-//    for (int j = Model.MinY; j <= Model.MaxY; j++)
-//    {
-//        if (!Model.RuutuTable[i, j].OnkoAvoin) {
-//            if (Model.RuutuTable[i, j].Seinat[0]) {
-//                    canvasContext.fillRect((i * 20), (j * 20), 20, 5);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 20, 5);
-//                    //canvasContext.drawImage(pShadow, (i * 20), (j * 20), 20, 1);
-//                    //canvasContext.drawImage(pShadow, (i * 20), (j * 20+4), 20, 1);
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[1]) {
-//                    canvasContext.fillRect((i * 20 + 15), (j * 20), 5, 20);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20 + 15), (j * 20), 5, 20);
-//                    //canvasContext.drawImage(pShadow, (i * 20+15), (j * 20), 1, 20);
-//                    //canvasContext.drawImage(pShadow, (i * 20+19), (j * 20), 1, 20);
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[2]) {
-//                    canvasContext.fillRect((i * 20), (j * 20+15), 20, 5);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20+15), 20, 5);
-//                    //canvasContext.drawImage(pShadow, (i * 20), (j * 20+15), 20, 1);
-//                    //canvasContext.drawImage(pShadow, (i * 20), (j * 20+19), 20, 1);
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[3]) {
-//                    canvasContext.fillRect((i * 20), (j * 20), 5, 20);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 5, 20);
-//                    //canvasContext.drawImage(pShadow, (i * 20), (j * 20), 1, 20);
-//                    //canvasContext.drawImage(pShadow, (i * 20+4), (j * 20), 1, 20);
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[0]) {
-                
-//                    canvasContext.fillRect((i * 20), (j * 20), 5, 5);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 5, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20), 5, 1);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+4), (j * 20), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+4), 5, 1);
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[1]) {
-                
-//                    canvasContext.fillRect((i * 20+15), (j * 20), 5, 5);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20+15), (j * 20), 5, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20), 5, 1);
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+19), (j * 20), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20+4), 5, 1);
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[2]) {
-                
-//                    canvasContext.fillRect((i * 20+15), (j * 20+15), 5, 5);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20+15), (j * 20+15), 5, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20+15), 5, 1);
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20+15), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+19), (j * 20+15), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20+19), 5, 1);
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[3]) {
-                
-//                    canvasContext.fillRect((i * 20), (j * 20+15), 5, 5);
-//                    canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20+15), 5, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+15), 5, 1);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+15), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20+4), (j * 20+15), 1, 5);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+19), 5, 1);
-                
-//            }
-//        }
-//    }
-//}
-
-
-//canvasContext.stroke();
-//canvasContext.beginPath();
-
-
-//for (int i = Model.MinX; i <= Model.MaxX; i++)
-//{
-//    for (int j = Model.MinY; j <= Model.MaxY; j++)
-//    {
-//        if (!Model.RuutuTable[i, j].OnkoAvoin) {
-//            if (Model.RuutuTable[i, j].Seinat[0]) {
-                
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20), 20, 1);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+4), 20, 1);
-                
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[1]) {
-                
-//                    canvasContext.drawImage(pShadow, (i * 20+15), (j * 20), 1, 20);
-//                    canvasContext.drawImage(pShadow, (i * 20+19), (j * 20), 1, 20);
-                
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[2]) {
-                
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+15), 20, 1);
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20+19), 20, 1);
-                
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[3]) {
-                
-//                    canvasContext.drawImage(pShadow, (i * 20), (j * 20), 1, 20);
-//                    canvasContext.drawImage(pShadow, (i * 20+4), (j * 20), 1, 20);
-                
-//            }
-//        }
-//    }
-//}
-
-
-
-
-//canvasContext.stroke();
-//canvasContext.beginPath();
-//canvasContext.fillStyle = "#777777";
-//var ruutuLaatta = document.getElementById("ruutuLaatta");
-
-
-
-//for (int i = Model.MinX; i <= Model.MaxX; i++)
-//{
-//    for (int j = Model.MinY; j <= Model.MaxY; j++)
-//    {
-//        if (Model.RuutuTable[i, j].OnkoAvoin) {
-            
-//                canvasContext.fillRect((i * 20), (j * 20), 20, 20);
-//                canvasContext.drawImage(ruutuLaatta, (i * 20), (j * 20));
-//                canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20));
-            
-
-//            if (Model.RuutuTable[i, j].Seinat[0]) {
-                
-//                    canvasContext.drawImage(varjo_0, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[1]) {
-                
-//                    canvasContext.drawImage(varjo_1, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[2]) {
-                
-//                    canvasContext.drawImage(varjo_2, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Seinat[3]) {
-                
-//                    canvasContext.drawImage(varjo_3, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[0]) {
-                
-//                    canvasContext.drawImage(varjoKulma_0, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[1]) {
-                
-//                    canvasContext.drawImage(varjoKulma_1, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[2]) {
-                
-//                    canvasContext.drawImage(varjoKulma_2, (i * 20), (j * 20));
-                
-//            }
-//            if (Model.RuutuTable[i, j].Kulmat[3]) {
-                
-//                    canvasContext.drawImage(varjoKulma_3, (i * 20), (j * 20));
-                
-//            }
-//        }
-//    }
-//}
-
-
-//    //var varjoKulma_2 = document.getElementById("varjoKulma_2");
-//    //canvasContext.drawImage(varjoKulma_2, 160, 140);
-//    canvasContext.stroke();
+//Ladataan alustava kuva esi-Canvasiin
+loadWithImage();
