@@ -24,7 +24,32 @@ var imgSquare = document.getElementById("imgSquare");
 //Avetaan sivu uudestaan paramentrien kanssa
 function loadWithParameters()
 {
-    window.location.href = "\\home\\index\\?imageUrl=" + document.getElementById("imgPath").value;
+    let strLocation = "\\home\\index\\?";
+
+    if (document.getElementById("imgPath").value) {
+        strLocation += "imageUrl=" + document.getElementById("imgPath").value + "&";
+    }
+    
+    if (document.getElementById("imgSquare").value) {
+        strLocation += "rKoko=" + document.getElementById("imgSquare").value + "&";
+    }
+
+    if (document.getElementById("imgOffsetWidth").value) {
+        strLocation += "oWidth=" + document.getElementById("imgOffsetWidth").value + "&";
+    }
+
+    if (document.getElementById("imgOffsetHeight").value) {
+        strLocation += "oHeight=" + document.getElementById("imgOffsetHeight").value + "&";
+    }
+
+    strLocation = strLocation.slice(0, -1);
+
+    window.location.href = strLocation;
+}
+
+function setParametersToInput() {
+    let strLocation = window.location.href;
+
 
 }
 
@@ -249,5 +274,7 @@ function drawSeinaVarjo(i, j, ruutu) {
     canvasContext.stroke();
 }
 
+//Ladattaessa asetetaan parametrin arvot input bokseihin
+setParametersToInput();
 //Ladataan alustava kuva esi-Canvasiin
 loadWithImage();

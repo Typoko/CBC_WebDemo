@@ -79,14 +79,14 @@ namespace ASPNETWebDemo.Controllers
         }
 
 
-        public IActionResult Index(string id, string imageUrl, string rKoko)
+        public IActionResult Index(string id, string imageUrl, string rKoko, string oWidth, string oHeight)
         {
             ViewBag.KarttaPath = "/TestFolder/testiKartta.jpg";
             ViewBag.SivustoPath = "https://localhost:44340/home/index/";
             Kartta kartta = new Kartta();
             int RuutuKoko;
-
-            //ViewBag.testi = testi;
+            int offsetWidth;
+            int offsetHeight;
 
             if (string.IsNullOrEmpty(rKoko))
             {
@@ -95,6 +95,24 @@ namespace ASPNETWebDemo.Controllers
             else
             {
                 RuutuKoko = Convert.ToInt32(rKoko);
+            }
+
+            if (string.IsNullOrEmpty(oWidth))
+            {
+                offsetWidth = 0;
+            }
+            else
+            {
+                offsetWidth = Convert.ToInt32(oWidth);
+            }
+
+            if (string.IsNullOrEmpty(oHeight))
+            {
+                offsetHeight = 0;
+            }
+            else
+            {
+                offsetHeight = Convert.ToInt32(oHeight);
             }
 
             if (string.IsNullOrEmpty(imageUrl))
@@ -112,14 +130,14 @@ namespace ASPNETWebDemo.Controllers
                 ViewBag.KarttaY = kartta.KarttaKuva.Height;
             }
 
-            kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width)/ RuutuKoko, kartta.KarttaKuva.Height/ RuutuKoko];
+            kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width+offsetWidth)/ RuutuKoko, (kartta.KarttaKuva.Height+offsetHeight)/ RuutuKoko];
 
 
             //Täytetään ruudukko tyhjillä instansseilla, ettei tule nulliin viittauksia
             SetRuutuInstances(kartta.RuutuTable);
 
             //Analysoidaan karttakuva ruuduiksi
-            SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva, RuutuKoko);
+            SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva, RuutuKoko, offsetWidth, offsetHeight);
 
             //Selvitetään missä väleissä on seiniä
             SetRuutuSeinaStatus(kartta.RuutuTable);
@@ -181,7 +199,7 @@ namespace ASPNETWebDemo.Controllers
 
             for (int h = 0;h<ruuToleranssi; h++)
             {
-                if(OnkoSeinaPikseli(kuva[x*ruuKoko + ruuPuolvali, y*ruuKoko + (ruuKoko-ruuToleranssi)+h]) || OnkoSeinaPikseli(kuva[x*ruuKoko + ruuPuolvali, (y+1)*ruuKoko + h]))
+                if(OnkoSeinaPikseli(kuva[x + ruuPuolvali, y + (ruuKoko-ruuToleranssi)+h]) || OnkoSeinaPikseli(kuva[x + ruuPuolvali, y + ruuKoko + h]))
                 {
                     return true;
                 }
@@ -190,24 +208,60 @@ namespace ASPNETWebDemo.Controllers
             return false;
         }
 
-        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko)
+        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko, int osWidth, int osHeight)
         {
-            bool RuutuTyyppi = false;
+            bool RuutuTyyppi;
 
-            for (int i = 0; i < ruudut.GetLength(0)-1; i++)
+            for (int i = 0; i < (ruudut.GetLength(0)-1)*ruuKoko; i+=ruuKoko)
             {
                 RuutuTyyppi = false;
-                for (int j = 0; j < ruudut.GetLength(1)-1; j++)
+                for (int j = 0; j < (ruudut.GetLength(1)-1)*ruuKoko; j+=ruuKoko)
                 {
-                    ruudut[i, j].OnkoAvoin = RuutuTyyppi;
-                    if (OnkoSeinaValissa(i, j, kuva, ruuKoko))
+                    ruudut[i/ruuKoko, j/ruuKoko].OnkoAvoin = RuutuTyyppi;
+                    if (OnkoSeinaValissa(i+osWidth, j+osHeight, kuva, ruuKoko))
                     {
                         RuutuTyyppi = !RuutuTyyppi;
                     }
                 }
             }
-
         }
+
+
+        //public bool OnkoSeinaValissa(int x, int y, Image<Rgba32> kuva, int ruuKoko)
+        //{
+        //    int ruuPuolvali = ruuKoko / 2;
+        //    int ruuToleranssi = Convert.ToInt32((float)ruuKoko * 0.33f);
+
+        //    for (int h = 0; h < ruuToleranssi; h++)
+        //    {
+        //        if (OnkoSeinaPikseli(kuva[x * ruuKoko + ruuPuolvali, y * ruuKoko + (ruuKoko - ruuToleranssi) + h]) || OnkoSeinaPikseli(kuva[x * ruuKoko + ruuPuolvali, (y + 1) * ruuKoko + h]))
+        //        {
+        //            return true;
+        //        }
+        //    }
+
+        //    return false;
+        //}
+
+        //public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko, int osWidth, int osHeight)
+        //{
+        //    bool RuutuTyyppi = false;
+
+        //    for (int i = 0; i < ruudut.GetLength(0) - 1; i++)
+        //    {
+        //        RuutuTyyppi = false;
+        //        for (int j = 0; j < ruudut.GetLength(1) - 1; j++)
+        //        {
+        //            ruudut[i, j].OnkoAvoin = RuutuTyyppi;
+        //            if (OnkoSeinaValissa(i, j, kuva, ruuKoko))
+        //            {
+        //                RuutuTyyppi = !RuutuTyyppi;
+        //            }
+        //        }
+        //    }
+        //}
+
+
 
         public void SetRuutuInstances(Ruutu[,] ruudut)
         {
