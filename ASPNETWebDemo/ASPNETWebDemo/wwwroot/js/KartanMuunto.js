@@ -60,37 +60,24 @@ function setParametersToInput() {
     if (window.location.href.includes("?")) {
 
         let strLocation = window.location.href;
-    
+
         let arrParameters = strLocation.split("?");
 
         arrParameters = arrParameters[1].split("&");
 
         //alert(arrParameters[0].slice(arrParameters[0].indexOf("=")));
 
-        document.getElementById("imgPath").value = arrParameters[0].slice(arrParameters[0].indexOf("=")+1);
-        document.getElementById("imgSquare").value = arrParameters[1].slice(arrParameters[1].indexOf("=")+1);
-        document.getElementById("imgOffsetWidth").value = arrParameters[2].slice(arrParameters[2].indexOf("=")+1);
+        document.getElementById("imgPath").value = arrParameters[0].slice(arrParameters[0].indexOf("=") + 1);
+        document.getElementById("imgSquare").value = arrParameters[1].slice(arrParameters[1].indexOf("=") + 1);
+        document.getElementById("imgOffsetWidth").value = arrParameters[2].slice(arrParameters[2].indexOf("=") + 1);
         document.getElementById("imgOffsetHeight").value = arrParameters[3].slice(arrParameters[3].indexOf("=") + 1);
         printMap = arrParameters[4].slice(arrParameters[4].indexOf("=") + 1);
     }
-
-    /*
-    if (document.getElementById("imgPath").value) {
-        strLocation += "imageUrl=" + document.getElementById("imgPath").value + "&";
+    else {
+        document.getElementById("redrawButton").disabled = true;
+        document.getElementById("createButton").disabled = true;
     }
 
-    if (document.getElementById("imgSquare").value) {
-        strLocation += "rKoko=" + document.getElementById("imgSquare").value + "&";
-    }
-
-    if (document.getElementById("imgOffsetWidth").value) {
-        strLocation += "oWidth=" + document.getElementById("imgOffsetWidth").value + "&";
-    }
-
-    if (document.getElementById("imgOffsetHeight").value) {
-        strLocation += "oHeight=" + document.getElementById("imgOffsetHeight").value + "&";
-    }
-    */
 }
 
 function loadWithImage() {
@@ -185,6 +172,7 @@ function createMap(Model) {
             document.getElementById("latausCanvas").style = "display:none";
             document.getElementById("karttaCanvas").style = "";
             createButton.innerHTML = "Return to Preview";
+            document.getElementById("redrawButton").disabled = true;
             printMap = false;
         }
     }
@@ -192,6 +180,7 @@ function createMap(Model) {
         document.getElementById("latausCanvas").style = "";
         document.getElementById("karttaCanvas").style = "display:none";
         createButton.innerHTML = "Create Map";
+        document.getElementById("redrawButton").disabled = false;
     }
     
 }
