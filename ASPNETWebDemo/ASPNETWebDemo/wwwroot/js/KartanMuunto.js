@@ -18,7 +18,12 @@ var imgOW = document.getElementById("imgOffsetWidth");
 var imgOH = document.getElementById("imgOffsetHeight");
 var imgSquare = document.getElementById("imgSquare");
 
+var printMap = false;
 
+function loadPreviewImage() {
+    printMap = false;
+    loadWithParameters();
+}
 
 
 //Avetaan sivu uudestaan paramentrien kanssa
@@ -26,10 +31,54 @@ function loadWithParameters()
 {
     let strLocation = "\\home\\index\\?";
 
+    //if (document.getElementById("imgPath").value) {
+        strLocation += "imageUrl=" + document.getElementById("imgPath").value + "&";
+    //}
+    
+    //if (document.getElementById("imgSquare").value) {
+        strLocation += "rKoko=" + document.getElementById("imgSquare").value + "&";
+    //}
+
+    //if (document.getElementById("imgOffsetWidth").value) {
+        strLocation += "oWidth=" + document.getElementById("imgOffsetWidth").value + "&";
+    //}
+
+    //if (document.getElementById("imgOffsetHeight").value) {
+        strLocation += "oHeight=" + document.getElementById("imgOffsetHeight").value + "&";
+    //}
+
+    strLocation += "pMap=" + printMap + "&";
+
+    strLocation = strLocation.slice(0, -1);
+
+    window.location.href = strLocation;
+}
+
+//imageUrl=https:/ /i.imgur.com/AbsNs83.jpg,rKoko=20,oWidth=0,oHeight=0
+function setParametersToInput() {
+
+    if (window.location.href.includes("?")) {
+
+        let strLocation = window.location.href;
+    
+        let arrParameters = strLocation.split("?");
+
+        arrParameters = arrParameters[1].split("&");
+
+        //alert(arrParameters[0].slice(arrParameters[0].indexOf("=")));
+
+        document.getElementById("imgPath").value = arrParameters[0].slice(arrParameters[0].indexOf("=")+1);
+        document.getElementById("imgSquare").value = arrParameters[1].slice(arrParameters[1].indexOf("=")+1);
+        document.getElementById("imgOffsetWidth").value = arrParameters[2].slice(arrParameters[2].indexOf("=")+1);
+        document.getElementById("imgOffsetHeight").value = arrParameters[3].slice(arrParameters[3].indexOf("=") + 1);
+        printMap = arrParameters[4].slice(arrParameters[4].indexOf("=") + 1);
+    }
+
+    /*
     if (document.getElementById("imgPath").value) {
         strLocation += "imageUrl=" + document.getElementById("imgPath").value + "&";
     }
-    
+
     if (document.getElementById("imgSquare").value) {
         strLocation += "rKoko=" + document.getElementById("imgSquare").value + "&";
     }
@@ -41,27 +90,27 @@ function loadWithParameters()
     if (document.getElementById("imgOffsetHeight").value) {
         strLocation += "oHeight=" + document.getElementById("imgOffsetHeight").value + "&";
     }
-
-    strLocation = strLocation.slice(0, -1);
-
-    window.location.href = strLocation;
+    */
 }
 
-function setParametersToInput() {
-    let strLocation = window.location.href;
+function loadWithImage() {
+    //alert("loadwithimage");
+    if (document.getElementById("imgPath").value) {
+        //alert("Printmap: " + printMap);
+        if (printMap == "true") {
+            //alert("Printmap: " + printMap);
+            document.getElementById("createButton").click();
+        }
 
-
-}
-
-function loadWithImage() {    
-    latausContext.clearRect(0, 0, latausContext.width, latausContext.height);
-    latausContext.drawImage(karttaKuva, 0, 0);
-    drawGrid(karttaKuva.width, karttaKuva.height, imgSquare.value, imgOW.value, imgOH.value);
+        latausContext.clearRect(0, 0, latausContext.width, latausContext.height);
+        latausContext.drawImage(karttaKuva, 0, 0);
+        drawGrid(karttaKuva.width, karttaKuva.height, imgSquare.value, imgOW.value, imgOH.value);
+    }
 }
 
 function drawGrid(iWidth, iHeight, r, shiftX, shiftY) {
 
-    alert(iWidth + "\n" + iHeight + "\n" + r + "\n" + shiftX + "\n" + shiftY);
+    //alert(iWidth + "\n" + iHeight + "\n" + r + "\n" + shiftX + "\n" + shiftY);
 
     latausContext.strokeStyle = "red";
     latausContext.lineWidth = 0.5;
@@ -78,53 +127,72 @@ function drawGrid(iWidth, iHeight, r, shiftX, shiftY) {
     latausContext.stroke();
 }
 
+function previewChanged() {
+
+    if (window.location.href.includes("?")) {
+
+        let strLocation = window.location.href;
+
+        let arrParameters = strLocation.split("?");
+
+        arrParameters = arrParameters[1].split("&");
+
+        if (document.getElementById("imgPath").value !== arrParameters[0].slice(arrParameters[0].indexOf("=") + 1)) {
+            return true;
+        }
+        if (document.getElementById("imgSquare").value !== arrParameters[1].slice(arrParameters[1].indexOf("=") + 1)) {
+            return true;
+        }
+        if (document.getElementById("imgOffsetWidth").value !== arrParameters[2].slice(arrParameters[2].indexOf("=") + 1)) {
+            return true;
+        }
+        if (document.getElementById("imgOffsetHeight").value !== arrParameters[3].slice(arrParameters[3].indexOf("=") + 1)) {
+            return true;
+        }        
+    }
+    return false;
+}
+
 
 function createMap(Model) {
-    
+        
     if (createButton.innerHTML == "Create Map") {
-
-        //Alustetaan canvas kokonaan kopioitavaksi
-        canvasContext.translate(-(Model.MinX * 20), -(Model.MinY * 20));
-        canvasContext.beginPath();
-        canvasContext.fillStyle = "#333333";
-        canvasContext.fillRect(0, 0, ((Model.MaxX + 1) * 20), ((Model.MaxY + 1) * 20));
-        canvasContext.stroke();
-
-        for (let i = Model.MinX; i < Model.MaxX; i++) {
-            for (let j = Model.MinY; j < Model.MaxY; j++) {
-                if (Model.RuutuTable[i * Model.MaxY + j].OnkoAvoin) {
-                    drawRuutu(i, j);
-                }
-
-                drawRuutuSeinat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
-                drawRuutuKulmat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
-                drawSeinaVarjo(i, j, Model.RuutuTable[i * Model.MaxY + j]);
-
-            }
+        if (previewChanged()) {
+            printMap = true;
+            loadWithParameters();
         }
+        else {
+            //Alustetaan canvas kokonaan kopioitavaksi
+            canvasContext.translate(-(Model.MinX * 20), -(Model.MinY * 20));
+            canvasContext.beginPath();
+            canvasContext.fillStyle = "#333333";
+            canvasContext.fillRect(0, 0, ((Model.MaxX + 1) * 20), ((Model.MaxY + 1) * 20));
+            canvasContext.stroke();
 
-        document.getElementById("latausCanvas").style = "display:none";
-        document.getElementById("karttaCanvas").style = "";
-        createButton.innerHTML = "Return Image";
+            for (let i = Model.MinX; i < Model.MaxX; i++) {
+                for (let j = Model.MinY; j < Model.MaxY; j++) {
+                    if (Model.RuutuTable[i * Model.MaxY + j].OnkoAvoin) {
+                        drawRuutu(i, j);
+                    }
+
+                    drawRuutuSeinat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
+                    drawRuutuKulmat(i, j, Model.RuutuTable[i * Model.MaxY + j]);
+                    drawSeinaVarjo(i, j, Model.RuutuTable[i * Model.MaxY + j]);
+
+                }
+            }
+
+            document.getElementById("latausCanvas").style = "display:none";
+            document.getElementById("karttaCanvas").style = "";
+            createButton.innerHTML = "Return to Preview";
+            printMap = false;
+        }
     }
     else {
         document.getElementById("latausCanvas").style = "";
         document.getElementById("karttaCanvas").style = "display:none";
         createButton.innerHTML = "Create Map";
     }
-    
-}
-
-function createMapTesti(obj) {
-
-    //for (a in obj) {
-    //    alert(a);
-    //}
-
-    alert("testi");
-
-    alert(obj.RuutuTable[0].Seinat)
-    alert(obj.MinY)
     
 }
 

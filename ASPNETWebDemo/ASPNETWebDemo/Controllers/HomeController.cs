@@ -88,6 +88,25 @@ namespace ASPNETWebDemo.Controllers
             int offsetWidth;
             int offsetHeight;
 
+            if (string.IsNullOrEmpty(imageUrl))
+            {
+                //kartta.KarttaKuva = Image.Load<Rgba32>("wwwroot" + ViewBag.KarttaPath);
+                ViewBag.KarttaX = 1;
+                ViewBag.KarttaY = 1;
+                return View(kartta);
+            }
+            else
+            {
+                WebClient wc = new WebClient();
+                Stream st = wc.OpenRead(imageUrl);
+                Image<Rgba32> im = Image.Load<Rgba32>(st);
+                kartta.KarttaKuva = im;
+                ViewBag.KarttaPath = imageUrl;
+                ViewBag.KarttaX = kartta.KarttaKuva.Width;
+                ViewBag.KarttaY = kartta.KarttaKuva.Height;
+            }
+
+
             if (string.IsNullOrEmpty(rKoko))
             {
                 RuutuKoko = 20;
@@ -115,20 +134,7 @@ namespace ASPNETWebDemo.Controllers
                 offsetHeight = Convert.ToInt32(oHeight);
             }
 
-            if (string.IsNullOrEmpty(imageUrl))
-            {
-                kartta.KarttaKuva = Image.Load<Rgba32>("wwwroot"+ ViewBag.KarttaPath);
-            }
-            else
-            {
-                WebClient wc = new WebClient();
-                Stream st = wc.OpenRead(imageUrl);
-                Image <Rgba32> im = Image.Load<Rgba32>(st);
-                kartta.KarttaKuva = im;
-                ViewBag.KarttaPath = imageUrl;
-                ViewBag.KarttaX = kartta.KarttaKuva.Width;
-                ViewBag.KarttaY = kartta.KarttaKuva.Height;
-            }
+            
 
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width+offsetWidth)/ RuutuKoko, (kartta.KarttaKuva.Height+offsetHeight)/ RuutuKoko];
 
