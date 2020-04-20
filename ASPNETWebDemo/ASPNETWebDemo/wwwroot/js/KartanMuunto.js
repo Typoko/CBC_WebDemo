@@ -18,12 +18,16 @@ var imgOW = document.getElementById("imgOffsetWidth");
 var imgOH = document.getElementById("imgOffsetHeight");
 var imgSquare = document.getElementById("imgSquare");
 
+
+
+
 var printMap = false;
 
 function loadPreviewImage() {
     printMap = false;
     loadWithParameters();
 }
+
 
 
 //Avetaan sivu uudestaan paramentrien kanssa
@@ -330,6 +334,47 @@ function drawSeinaVarjo(i, j, ruutu) {
 
     canvasContext.stroke();
 }
+
+var imgPath = document.getElementById("imgPath");
+imgPath.addEventListener("keyup", function (event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("loadPreviewPath").click();
+    }
+});
+var imgPath = document.getElementById("imgOffsetWidth");
+imgPath.addEventListener("keyup", function (event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("redrawButton").click();
+    }
+});
+var imgPath = document.getElementById("imgOffsetHeight");
+imgPath.addEventListener("keyup", function (event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("redrawButton").click();
+    }
+});
+var imgPath = document.getElementById("imgSquare");
+imgPath.addEventListener("keyup", function (event) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.keyCode === 13) {
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Trigger the button element with a click
+        document.getElementById("redrawButton").click();
+    }
+});
 
 //Ladattaessa asetetaan parametrin arvot input bokseihin
 setParametersToInput();

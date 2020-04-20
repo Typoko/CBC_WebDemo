@@ -15,6 +15,8 @@ using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using System.Net;
+using System.Threading;
+using SixLabors.ImageSharp.Formats.Jpeg;
 
 namespace ASPNETWebDemo.Controllers
 {
@@ -81,7 +83,7 @@ namespace ASPNETWebDemo.Controllers
 
         public IActionResult Index(string id, string imageUrl, string rKoko, string oWidth, string oHeight)
         {
-            ViewBag.KarttaPath = "/TestFolder/testiKartta.jpg";
+            ViewBag.KarttaPath = "/TestFolder/tempKartta.jpg";
             ViewBag.SivustoPath = "https://localhost:44340/home/index/";
             Kartta kartta = new Kartta();
             int RuutuKoko;
@@ -101,7 +103,8 @@ namespace ASPNETWebDemo.Controllers
                 Stream st = wc.OpenRead(imageUrl);
                 Image<Rgba32> im = Image.Load<Rgba32>(st);
                 kartta.KarttaKuva = im;
-                ViewBag.KarttaPath = imageUrl;
+                kartta.KarttaKuva.Save("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/tempKartta.jpg",new JpegEncoder());
+                //ViewBag.KarttaPath = imageUrl; //"/TestiFolder/tempKartta.jpg"; //
                 ViewBag.KarttaX = kartta.KarttaKuva.Width;
                 ViewBag.KarttaY = kartta.KarttaKuva.Height;
             }

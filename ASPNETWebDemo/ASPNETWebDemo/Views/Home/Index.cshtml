@@ -5,40 +5,29 @@
     ViewData["Title"] = "KartanMuunnos";
 }
 
-<div class="w-100 pb-1">
-    <h3>Input Image:</h3>
-    <button onclick="loadPreviewImage()" class="float-left">Open to Preview</button>
-    <input type="text" id="imgPath" class="float-left mr-2">
-    @*<button onclick='createMap(@Html.Raw(ViewBag.karttaJson))' class='float-left'>Create Map</button>*@
+    <div class="w-100 pb-1">
+        <h3>Input Image:</h3>
+        <button id="loadPreviewPath" onclick="loadPreviewImage()" class="float-left">Open to Preview</button>
+        <input type="text" id="imgPath" class="float-left mr-2">
 
-    
-    <p>https://i.imgur.com/AbsNs83.jpg</p>
-    <div>
-        <h3>Offset:</h3>
-        <p class="float-left">X:</p> <input type="text" id="imgOffsetWidth" class="float-left mr-1" value="0"> <p class="float-left">Y:</p> <input type="text" id="imgOffsetHeight" class="float-left mr-1" value="0"><br /><br />
-        <h3>Square Size</h3> <input type="text" id="imgSquare" class="float-left mr-1" value="20">
+        <p>https://i.imgur.com/AbsNs83.jpg</p>
+        <div>
+            <h3>Offset:</h3>
+            <p class="float-left">X:</p> <input type="text" id="imgOffsetWidth" class="float-left mr-1" value="0"> <p class="float-left">Y:</p> <input type="text" id="imgOffsetHeight" class="float-left mr-1" value="0"><br /><br />
+            <h3>Square Size</h3> <input type="text" id="imgSquare" class="float-left mr-1" value="20">
 
-        <button id="redrawButton" onclick='loadWithImage()' class='float-left mr-1'>Refresh Preview</button>
-        <button id="createButton" onclick='createMap(@Html.Raw(@ViewBag.karttaTauluJson))' class='float-left'>Create Map</button>
+            <button id="redrawButton" onclick='loadWithImage()' class='float-left mr-1'>Refresh Preview</button>
+            <button id="createButton" onclick='createMap(@Html.Raw(@ViewBag.karttaTauluJson))' class='float-left'>Create Map</button>
 
+        </div>
+        <br />
+        <br />
     </div>
-    <br />
-    <br />
-</div>
-
-
 
 <canvas id="latausCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY">
 </canvas>
 
-<script>
-    @*var img = new Image();
-    img.src = "@ViewBag.KarttaPath";*@
-
-    
-</script>
-
-<img id="karttaKuva" src="@ViewBag.KarttaPath" class="float-left" style="display:none">
+<img id="karttaKuva" src="@ViewBag.KarttaPath" class="float-left" asp-append-version="true" style="display:none">
 
 
 <img id="ruutuLaatta" src="~/Textures/huoneRuutuLaatta.png" style="display:none">
