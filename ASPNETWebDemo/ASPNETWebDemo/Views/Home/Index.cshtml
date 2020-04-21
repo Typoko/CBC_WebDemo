@@ -2,50 +2,72 @@
 
 
 @{
-    ViewData["Title"] = "KartanMuunnos";
+    ViewData["Title"] = "Map Flipper";
 }
+    <div id="bodyDiv" class="h-100">
+        <div class="w-100 pb-1" id="topDiv">
+            <div class="float-left topOptions" id="topFirst">
+                <input type="text" id="imgPath" class="float-left mt-2 ml-2" placeholder="Link to Image Goes Here">
+                <button id="loadPreviewPath" onclick="loadPreviewImage()" class="float-left mt-2">Open Link</button>
+                <button id="createButton" onclick='createMap(@Html.Raw(@ViewBag.karttaTauluJson))' class='float-left topButton mt-1 ml-2'>Create Map</button>
+                <button id="redrawButton" onclick='loadWithImage()' class='float-left mt-1 ml-1 topButton'>Refresh Preview</button>
+            </div>
+            <div class="float-left topOptions" id="topSecond">
+                <div class="topParam">
+                    <div class="topParamCell">
+                        <p class="topText ">Offset X</p>
+                    </div>
+                    <div class="topParamCell">
+                        <input type="text" id="imgOffsetWidth" class="topInput" value="0">
+                    </div>
+                </div>
+                <div class="topParam">
+                    <div class="topParamCell">
+                        <p class="topText">Offset Y</p>
+                    </div>
+                    <div class="topParamCell">
+                        <input type="text" id="imgOffsetHeight" class="topInput" value="0">
+                    </div>
+                </div>
+                <div class="topParam">
+                    <div class="topParamCell">
+                        <p class="topText">Square Size</p>
+                    </div>
+                    <div class="topParamCell">
+                        <input type="text" id="imgSquare" class="topInput" value="20">
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="w-100 pb-1">
-        <h3>Input Image:</h3>
-        <button id="loadPreviewPath" onclick="loadPreviewImage()" class="float-left">Open to Preview</button>
-        <input type="text" id="imgPath" class="float-left mr-2">
-
-        <p>https://i.imgur.com/AbsNs83.jpg</p>
-        <div>
-            <h3>Offset:</h3>
-            <p class="float-left">X:</p> <input type="text" id="imgOffsetWidth" class="float-left mr-1" value="0"> <p class="float-left">Y:</p> <input type="text" id="imgOffsetHeight" class="float-left mr-1" value="0"><br /><br />
-            <h3>Square Size</h3> <input type="text" id="imgSquare" class="float-left mr-1" value="20">
-
-            <button id="redrawButton" onclick='loadWithImage()' class='float-left mr-1'>Refresh Preview</button>
-            <button id="createButton" onclick='createMap(@Html.Raw(@ViewBag.karttaTauluJson))' class='float-left'>Create Map</button>
+        <div id="borderDiv">
 
         </div>
-        <br />
-        <br />
+        
+        <div id="botDiv" class="ml-4">
+            @*<p>https://i.imgur.com/AbsNs83.jpg</p>*@
+
+            <canvas id="latausCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY">
+            </canvas>
+
+            <img id="karttaKuva" src="@ViewBag.KarttaPath" class="ml-2" asp-append-version="true" style="display:none">
+
+            <img id="ruutuLaatta" src="~/Textures/huoneRuutuLaatta.png" style="display:none">
+            <img id="varjo_0" src="~/Textures/huoneRuutuVarjo_0.png" style="display:none">
+            <img id="varjo_1" src="~/Textures/huoneRuutuVarjo_1.png" style="display:none">
+            <img id="varjo_2" src="~/Textures/huoneRuutuVarjo_2.png" style="display:none">
+            <img id="varjo_3" src="~/Textures/huoneRuutuVarjo_3.png" style="display:none">
+            <img id="varjoKulma_0" src="~/Textures/huoneRuutuVarjoKulma_0.png" style="display:none">
+            <img id="varjoKulma_1" src="~/Textures/huoneRuutuVarjoKulma_1.png" style="display:none">
+            <img id="varjoKulma_2" src="~/Textures/huoneRuutuVarjoKulma_2.png" style="display:none">
+            <img id="varjoKulma_3" src="~/Textures/huoneRuutuVarjoKulma_3.png" style="display:none">
+            <img id="ruutuTekstuuri" src="~/Textures/ruutuTekstuuri.png" style="display:none">
+            <img id="30pShadow" src="~/Textures/30pShadow.png" style="display:none">
+
+            <canvas id="karttaCanvas" width="@Model.TulosteX" height="@Model.TulosteY" style="display:none">
+            </canvas>
+        </div>
     </div>
-
-<canvas id="latausCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY">
-</canvas>
-
-<img id="karttaKuva" src="@ViewBag.KarttaPath" class="float-left" asp-append-version="true" style="display:none">
-
-
-<img id="ruutuLaatta" src="~/Textures/huoneRuutuLaatta.png" style="display:none">
-<img id="varjo_0" src="~/Textures/huoneRuutuVarjo_0.png" style="display:none">
-<img id="varjo_1" src="~/Textures/huoneRuutuVarjo_1.png" style="display:none">
-<img id="varjo_2" src="~/Textures/huoneRuutuVarjo_2.png" style="display:none">
-<img id="varjo_3" src="~/Textures/huoneRuutuVarjo_3.png" style="display:none">
-<img id="varjoKulma_0" src="~/Textures/huoneRuutuVarjoKulma_0.png" style="display:none">
-<img id="varjoKulma_1" src="~/Textures/huoneRuutuVarjoKulma_1.png" style="display:none">
-<img id="varjoKulma_2" src="~/Textures/huoneRuutuVarjoKulma_2.png" style="display:none">
-<img id="varjoKulma_3" src="~/Textures/huoneRuutuVarjoKulma_3.png" style="display:none">
-<img id="ruutuTekstuuri" src="~/Textures/ruutuTekstuuri.png" style="display:none">
-<img id="30pShadow" src="~/Textures/30pShadow.png" style="display:none">
-
-<canvas id="karttaCanvas" width="@Model.TulosteX" height="@Model.TulosteY" style="display:none">
-</canvas>
-
-
 @*<canvas id="testiCanvas" width="200" height="200" style="background-color:#777777">
     </canvas>
 

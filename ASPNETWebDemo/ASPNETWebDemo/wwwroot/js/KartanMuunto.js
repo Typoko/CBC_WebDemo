@@ -18,17 +18,19 @@ var imgOW = document.getElementById("imgOffsetWidth");
 var imgOH = document.getElementById("imgOffsetHeight");
 var imgSquare = document.getElementById("imgSquare");
 
-
+let colUlko = "#333333";
+let colSeina = "#494949";
+let colLattia = "#777777";
 
 
 var printMap = false;
 
 function loadPreviewImage() {
-    printMap = false;
-    loadWithParameters();
+    if (document.getElementById("imgPath").value) {
+        printMap = false;
+        loadWithParameters();
+    }
 }
-
-
 
 //Avetaan sivu uudestaan paramentrien kanssa
 function loadWithParameters()
@@ -156,7 +158,7 @@ function createMap(Model) {
             //Alustetaan canvas kokonaan kopioitavaksi
             canvasContext.translate(-(Model.MinX * 20), -(Model.MinY * 20));
             canvasContext.beginPath();
-            canvasContext.fillStyle = "#333333";
+            canvasContext.fillStyle = colUlko;
             canvasContext.fillRect(0, 0, ((Model.MaxX + 1) * 20), ((Model.MaxY + 1) * 20));
             canvasContext.stroke();
 
@@ -190,7 +192,7 @@ function createMap(Model) {
 }
 
 function drawRuutu(i, j) {
-    canvasContext.fillStyle = "#777777";
+    canvasContext.fillStyle = colLattia;
     canvasContext.beginPath();
     canvasContext.fillRect((i * 20), (j * 20), 20, 20);
     canvasContext.drawImage(ruutuLaatta, (i * 20), (j * 20));
@@ -204,7 +206,7 @@ function drawRuutuSeinat(i, j,ruutu) {
 
     //alert(i + "\n" + j + "\n" + seina + "\n" + onkoA);
     if (ruutu.OnkoAvoin == false) {
-        canvasContext.fillStyle = "#555555";
+        canvasContext.fillStyle = colSeina;
         if (ruutu.Seinat[0]) {
             canvasContext.fillRect((i * 20), (j * 20), 20, 5);
             canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 20, 5);
@@ -237,7 +239,7 @@ function drawRuutuKulmat(i, j, ruutu) {
 
     //alert(i + "\n" + j + "\n" + seina + "\n" + onkoA);
     if (ruutu.OnkoAvoin == false) {
-        canvasContext.fillStyle = "#555555";
+        canvasContext.fillStyle = colSeina;
         if (ruutu.Kulmat[0]) {
             canvasContext.fillRect((i * 20), (j * 20), 5, 5);
             canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 5, 5);
@@ -298,7 +300,7 @@ function drawSeinaVarjo(i, j, ruutu) {
 
     //alert(i + "\n" + j + "\n" + seina + "\n" + onkoA);
     if (ruutu.OnkoAvoin == false) {
-        canvasContext.fillStyle = "#555555";
+        canvasContext.fillStyle = colSeina;
         if (ruutu.Seinat[0]) {
             canvasContext.drawImage(pShadow, (i * 20), (j * 20), 20, 1);
             canvasContext.drawImage(pShadow, (i * 20), (j * 20+4), 20, 1);

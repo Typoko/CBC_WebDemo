@@ -103,7 +103,8 @@ namespace ASPNETWebDemo.Controllers
                 Stream st = wc.OpenRead(imageUrl);
                 Image<Rgba32> im = Image.Load<Rgba32>(st);
                 kartta.KarttaKuva = im;
-                kartta.KarttaKuva.Save("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/tempKartta.jpg",new JpegEncoder());
+                //kartta.KarttaKuva.Save("F:/Git_Repo/CBC_WebDemo/ASPNETWebDemo/ASPNETWebDemo/wwwroot/TestFolder/tempKartta.jpg",new JpegEncoder());
+                kartta.KarttaKuva.Save("wwwroot\\TestFolder\\tempKartta.jpg", new JpegEncoder());
                 //ViewBag.KarttaPath = imageUrl; //"/TestiFolder/tempKartta.jpg"; //
                 ViewBag.KarttaX = kartta.KarttaKuva.Width;
                 ViewBag.KarttaY = kartta.KarttaKuva.Height;
@@ -217,9 +218,15 @@ namespace ASPNETWebDemo.Controllers
             return false;
         }
 
+        //osHeight ongelma jos antaa liian paljon plussaa tai miinusta!
+        //Pitäisi tarkistaa, että ei ole paljon yli 50% per ruudun koko. Voidaan asettaa -ruuKoKo kunnes alle tai yli sen puolen
         public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko, int osWidth, int osHeight)
         {
             bool RuutuTyyppi;
+
+            osHeight %= ruuKoko;
+            if (osHeight > ruuKoko / 2) { osHeight -= ruuKoko; }
+            if (osHeight < -ruuKoko / 2) { osHeight += ruuKoko; }
 
             for (int i = 0; i < (ruudut.GetLength(0)-1)*ruuKoko; i+=ruuKoko)
             {
@@ -524,6 +531,15 @@ namespace ASPNETWebDemo.Controllers
             kKartta.MinY--;
             kKartta.MaxX++;
             kKartta.MaxY++;
+
+            //Tehdään pieni neliö jos ei löydy yhtään huoneruutua
+            if(kKartta.MinX>kKartta.MaxX)
+            { 
+                kKartta.MinX = 1;
+                kKartta.MinY = 1;
+                kKartta.MaxX = 3;
+                kKartta.MaxY = 3;
+            }
 
             kKartta.TulosteX = (kKartta.MaxX - kKartta.MinX + 1) * 20;
             kKartta.TulosteY = (kKartta.MaxY - kKartta.MinY + 1) * 20;
