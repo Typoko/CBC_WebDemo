@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using SixLabors.ImageSharp.Processing;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using ASPNETWebDemo.Models;
@@ -109,7 +108,7 @@ namespace ASPNETWebDemo.Controllers
                 ViewBag.KarttaX = kartta.KarttaKuva.Width;
                 ViewBag.KarttaY = kartta.KarttaKuva.Height;
             }
-
+            
 
             if (string.IsNullOrEmpty(rKoko))
             {
@@ -138,8 +137,6 @@ namespace ASPNETWebDemo.Controllers
                 offsetHeight = Convert.ToInt32(oHeight);
             }
 
-            
-
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width+offsetWidth)/ RuutuKoko, (kartta.KarttaKuva.Height+offsetHeight)/ RuutuKoko];
 
 
@@ -161,8 +158,6 @@ namespace ASPNETWebDemo.Controllers
             //Luodaan Json konversio "käsin" kun multidimensional olio array ei tunnu menevän läpi vakiona
             LuoJson(kartta);
 
-
-
             return View(kartta);
         }
 
@@ -170,7 +165,6 @@ namespace ASPNETWebDemo.Controllers
         //Tehdään näin koska 2 ulotteinen taulukko jonka sisällä on olioita ei tuntunut menevän läpi
         public void LuoJson(Kartta k)
         {
-
             string karttaTauluJson = "{\"RuutuTable\":[";
 
             for (int i = k.MinX; i <= k.MaxX; i++)
@@ -241,43 +235,6 @@ namespace ASPNETWebDemo.Controllers
                 }
             }
         }
-
-
-        //public bool OnkoSeinaValissa(int x, int y, Image<Rgba32> kuva, int ruuKoko)
-        //{
-        //    int ruuPuolvali = ruuKoko / 2;
-        //    int ruuToleranssi = Convert.ToInt32((float)ruuKoko * 0.33f);
-
-        //    for (int h = 0; h < ruuToleranssi; h++)
-        //    {
-        //        if (OnkoSeinaPikseli(kuva[x * ruuKoko + ruuPuolvali, y * ruuKoko + (ruuKoko - ruuToleranssi) + h]) || OnkoSeinaPikseli(kuva[x * ruuKoko + ruuPuolvali, (y + 1) * ruuKoko + h]))
-        //        {
-        //            return true;
-        //        }
-        //    }
-
-        //    return false;
-        //}
-
-        //public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko, int osWidth, int osHeight)
-        //{
-        //    bool RuutuTyyppi = false;
-
-        //    for (int i = 0; i < ruudut.GetLength(0) - 1; i++)
-        //    {
-        //        RuutuTyyppi = false;
-        //        for (int j = 0; j < ruudut.GetLength(1) - 1; j++)
-        //        {
-        //            ruudut[i, j].OnkoAvoin = RuutuTyyppi;
-        //            if (OnkoSeinaValissa(i, j, kuva, ruuKoko))
-        //            {
-        //                RuutuTyyppi = !RuutuTyyppi;
-        //            }
-        //        }
-        //    }
-        //}
-
-
 
         public void SetRuutuInstances(Ruutu[,] ruudut)
         {
