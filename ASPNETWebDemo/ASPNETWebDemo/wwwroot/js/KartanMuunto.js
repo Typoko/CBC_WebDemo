@@ -8,6 +8,7 @@ var varjoKulma_1 = document.getElementById("varjoKulma_1");
 var varjoKulma_2 = document.getElementById("varjoKulma_2");
 var varjoKulma_3 = document.getElementById("varjoKulma_3");
 var ruutuTekstuuri = document.getElementById("ruutuTekstuuri");
+var ruutuTekstuuri400x400 = document.getElementById("ruutuTekstuuri400x400");
 var pShadow = document.getElementById("30pShadow");
 var canvasContext = document.getElementById("karttaCanvas").getContext("2d");
 
@@ -191,12 +192,24 @@ function createMap(Model) {
     
 }
 
+function drawTekstuuriOsa(dtoWidth, dtoHeight, dx, dy) {
+    //alert("alku");
+    sx = Math.floor(Math.random() * (399 - dtoWidth));
+    sy = Math.floor(Math.random() * (399 - dtoHeight));
+    //alert("Randomoitu: \n"+sx+"\n"+sy);
+    canvasContext.drawImage(ruutuTekstuuri400x400, sx, sy, dtoWidth, dtoHeight, dx, dy, dtoWidth, dtoHeight);
+    //canvasContext.drawImage(ruutuTekstuuri, dx, dy);
+    //alert("loppu");
+}
+
 function drawRuutu(i, j) {
     canvasContext.fillStyle = colLattia;
     canvasContext.beginPath();
     canvasContext.fillRect((i * 20), (j * 20), 20, 20);
+    drawTekstuuriOsa(20, 20, (i * 20), (j * 20));
+    drawTekstuuriOsa(20, 20, (i * 20), (j * 20));
     canvasContext.drawImage(ruutuLaatta, (i * 20), (j * 20));
-    canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20));
+    //canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20));
     canvasContext.stroke();
 }
 
@@ -209,20 +222,24 @@ function drawRuutuSeinat(i, j,ruutu) {
         canvasContext.fillStyle = colSeina;
         if (ruutu.Seinat[0]) {
             canvasContext.fillRect((i * 20), (j * 20), 20, 5);
-            canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 20, 5);
+            drawTekstuuriOsa(20, 5, (i * 20), (j * 20));
+            //canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 20, 5);
         }
         if (ruutu.Seinat[1]) {
             //alert(i + "\n" + j + "\n" + seina + "\n" + onkoA);
             canvasContext.fillRect((i * 20 + 15), (j * 20), 5, 20);
-            canvasContext.drawImage(ruutuTekstuuri, (i * 20 + 15), (j * 20), 5, 20);
+            drawTekstuuriOsa(5, 20, (i * 20 + 15), (j * 20));
+            //canvasContext.drawImage(ruutuTekstuuri, (i * 20 + 15), (j * 20), 5, 20);
         }
         if (ruutu.Seinat[2]) {
             canvasContext.fillRect((i * 20), (j * 20+15), 20, 5);
-            canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20+15), 20, 5);
+            drawTekstuuriOsa(20, 5, (i * 20), (j * 20 + 15));
+            //canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20+15), 20, 5);
         }
         if (ruutu.Seinat[3]) {
             canvasContext.fillRect((i * 20), (j * 20), 5, 20);
-            canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 5, 20);
+            drawTekstuuriOsa(5, 20, (i * 20), (j * 20));
+            //canvasContext.drawImage(ruutuTekstuuri, (i * 20), (j * 20), 5, 20);
         }
     }
     else {
