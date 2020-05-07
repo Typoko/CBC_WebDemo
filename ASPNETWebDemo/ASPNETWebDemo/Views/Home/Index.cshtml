@@ -68,6 +68,13 @@
         <canvas id="karttaCanvas" width="@Model.TulosteX" height="@Model.TulosteY" style="display:none">
         </canvas>
     </div>
+
+    @using (Html.BeginForm("Index","Home",FormMethod.Post))
+    { 
+        <input id="testText" name="testText" type="text"/><br /><br />
+        <input id="testSubmit" name="testSubmit" type="submit" value="Test Template" />
+    }
+
 </div>
 
 @*<p>https://i.imgur.com/AbsNs83.jpg</p>*@

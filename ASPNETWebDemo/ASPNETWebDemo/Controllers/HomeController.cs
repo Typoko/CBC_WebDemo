@@ -44,41 +44,17 @@ namespace ASPNETWebDemo.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        public string TestiString()
-        {
-            return "Testi 123";
-        }
+        //public string TestiString()
+        //{
+        //    return "Testi 123";
+        //}
 
-        public string Kellonaika()
-        {
-            return DateTime.Now.ToString();
-        }
+        //public string Kellonaika()
+        //{
+        //    return DateTime.Now.ToString();
+        //}
 
-
-        public IActionResult UusiSivu()
-        {
-            List<Asiakas> asiakkaat = new List<Asiakas>()
-            {
-                new Asiakas()
-                {
-                    AsiakasID = 100,
-                    asiakkaanNimi = "Nimi1",
-                    sahkoPosti = "testi@123.fi"
-                },
-                new Asiakas()
-                {
-                    AsiakasID = 101,
-                    asiakkaanNimi = "Nimi2",
-                    sahkoPosti = "te2222sti@123.fi"
-                }
-            };
-
-            ViewBag.NapinVari = "danger";
-            ViewBag.NaytaLista = "false";
-            
-            return View(asiakkaat);
-        }
-
+        
 
         public IActionResult Index(string id, string imageUrl, string rKoko, string oWidth, string oHeight)
         {
@@ -160,6 +136,21 @@ namespace ASPNETWebDemo.Controllers
 
             return View(kartta);
         }
+
+
+        [HttpPost]
+        public IActionResult Index()
+        {
+            //Request.Form["testText"].ToString()
+            Kartta kartta = new Kartta();
+            ViewBag.KarttaPath = "/TestFolder/tempKartta.jpg";
+            ViewBag.SivustoPath = "https://localhost:44340/home/index/";
+
+            ViewBag.KarttaX = 1;
+            ViewBag.KarttaY = 1;
+            return View(kartta);
+        }
+
 
         //Luodaan Json tarvittavista muuttujista
         //Tehdään näin koska 2 ulotteinen taulukko jonka sisällä on olioita ei tuntunut menevän läpi
