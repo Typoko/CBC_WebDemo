@@ -48,8 +48,11 @@
 
         <canvas id="latausCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY">
         </canvas>
-
+        @*
         <img id="karttaKuva" src="@ViewBag.KarttaPath" class="ml-2" asp-append-version="true" style="display:none">
+        <img id="testiKuva" src="@ViewBag.testiSource" class="ml-2" asp-append-version="true" style="display:none">
+        *@
+        <img id="karttaKuva" src="@ViewBag.testiSource" class="ml-2" asp-append-version="true" style="display:none">
 
         <img id="ruutuLaatta" src="~/Textures/huoneRuutuLaatta.png" style="display:none">
         <img id="varjo_0" src="~/Textures/huoneRuutuVarjo_0.png" style="display:none">
@@ -81,8 +84,8 @@
 
 <button id="testButton" onclick='testiCanvasLataus()' >Testi</button>
 
-<canvas id="testiTulosteCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY"></canvas>
-<img id="testiKuva" src="@ViewBag.testiSource">
+@*<canvas id="testiTulosteCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY"></canvas>*@
+
 
 
 

@@ -397,8 +397,8 @@ imgPath.addEventListener("keyup", function (event) {
 
 function testiCanvasLataus() {
     var testiImageDraw = document.getElementById("testiKuva");
-    var testicanvas = document.getElementById("testiTulosteCanvas").getContext("2d");
-    testicanvas.drawImage(testiImageDraw, 0, 0);
+    //var testicanvas = document.getElementById("testiTulosteCanvas").getContext("2d");
+    canvasContext.drawImage(testiImageDraw, 0, 0);
 }
 
 //Ladattaessa asetetaan parametrin arvot input bokseihin
