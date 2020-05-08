@@ -395,15 +395,15 @@ imgPath.addEventListener("keyup", function (event) {
     }
 });
 
-function testiCanvasLataus() {
-    var testiImageDraw = document.getElementById("testiKuva");
-    //var testicanvas = document.getElementById("testiTulosteCanvas").getContext("2d");
-    canvasContext.drawImage(testiImageDraw, 0, 0);
-}
+//function testiCanvasLataus() {
+//    var testiImageDraw = document.getElementById("testiKuva");
+//    //var testicanvas = document.getElementById("testiTulosteCanvas").getContext("2d");
+//    canvasContext.drawImage(testiImageDraw, 0, 0);
+//}
 
 //Ladattaessa asetetaan parametrin arvot input bokseihin
 setParametersToInput();
 //Ladataan alustava kuva esi-Canvasiin
 loadWithImage();
 
-testiCanvasLataus();
+//testiCanvasLataus();
