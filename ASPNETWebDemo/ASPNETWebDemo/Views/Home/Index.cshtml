@@ -69,40 +69,49 @@
         </canvas>
     </div>
 
-    @using (Html.BeginForm("Index","Home",FormMethod.Post))
-    { 
-        <input id="testText" name="testText" type="text"/><br /><br />
-        <input id="testSubmit" name="testSubmit" type="submit" value="Test Template" />
-    }
+    @*@using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            <input id="testText" name="testText" type="text" /><br /><br />
+            <canvas id="testCanvas" name="testCanvas" width="200" height="200">
+            </canvas>
+            <input id="testSubmit" name="testSubmit" type="submit" value="Test Template" />
+        }*@
 
 </div>
 
-@*<p>https://i.imgur.com/AbsNs83.jpg</p>*@
-@*<canvas id="testiCanvas" width="200" height="200" style="background-color:#777777">
-    </canvas>
+<button id="testButton" onclick='testiCanvasLataus()' >Testi</button>
 
-    <script>
-        var testiContext = document.getElementById("testiCanvas").getContext("2d");
-
-        testiContext.drawImage(ruutuLaatta, 20, 20);
+<canvas id="testiTulosteCanvas" width="@ViewBag.KarttaX" height="@ViewBag.KarttaY"></canvas>
+<img id="testiKuva" src="@ViewBag.testiSource">
 
 
 
+    @*<p>https://i.imgur.com/AbsNs83.jpg</p>*@
+    @*<canvas id="testiCanvas" width="200" height="200" style="background-color:#777777">
+        </canvas>
 
-        //var alphaGradient = testiContext.createLinearGradient(20, 20, 20, 40);
-        //testiContext.beginPath();
-        //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 0.3)');
-        //alphaGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
+        <script>
+            var testiContext = document.getElementById("testiCanvas").getContext("2d");
+
+            testiContext.drawImage(ruutuLaatta, 20, 20);
 
 
-        //testiContext.fillStyle = alphaGradient;
-        //testiContext.fillRect(0, 0, 200, 200);
-        //testiContext.stroke();
 
-        //testiContext.beginPath();
-        //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
-        //alphaGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
-        //testiContext.fillStyle = alphaGradient;
-        //testiContext.fillRect(20, 20, 20, 20);
-        //testiContext.stroke();
-    </script>*@
+
+            //var alphaGradient = testiContext.createLinearGradient(20, 20, 20, 40);
+            //testiContext.beginPath();
+            //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 0.3)');
+            //alphaGradient.addColorStop(0.5, 'rgba(0, 0, 0, 0)');
+
+
+            //testiContext.fillStyle = alphaGradient;
+            //testiContext.fillRect(0, 0, 200, 200);
+            //testiContext.stroke();
+
+            //testiContext.beginPath();
+            //alphaGradient.addColorStop(0, 'rgba(0, 0, 0, 1)');
+            //alphaGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            //testiContext.fillStyle = alphaGradient;
+            //testiContext.fillRect(20, 20, 20, 20);
+            //testiContext.stroke();
+        </script>*@
