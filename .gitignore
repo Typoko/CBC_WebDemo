@@ -5,8 +5,11 @@
 /ASPNETWebDemo/.vs/ASPNETWebDemo
 /ASPNETWebDemo/ASPNETWebDemo/bin/Debug/netcoreapp3.1
 /ASPNETWebDemo/ASPNETWebDemo/obj
-/ASPNETWebDemo/ASPNETWebDemo/wwwroot/Textures/borderBackground.xcf
-/ASPNETWebDemo/ASPNETWebDemo/wwwroot/Textures/bottomBackground.xcf
-/ASPNETWebDemo/ASPNETWebDemo/wwwroot/Textures/topBackground.xcf
-/ASPNETWebDemo/ASPNETWebDemo/wwwroot/Textures/topFirstBacground.xcf
-/ASPNETWebDemo/ASPNETWebDemo/wwwroot/Textures/topSecondBacground.xcf
+/borderBackground.xcf
+/bottomBackground.xcf
+/topBackground.xcf
+/topFirstBacground.xcf
+/topSecondBacground.xcf
+/ruutuTekstuuri.xcf
+/ASPNETWebDemo/ASPNETWebDemo/bin/Release/netcoreapp3.1
+/ASPNETWebDemo/ASPNETWebDemo/Properties/PublishProfiles

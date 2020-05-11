@@ -348,8 +348,6 @@ namespace ASPNETWebDemo.Controllers
             }
         }
 
-
-
         public void SetRuutuKulmaStatus(Ruutu[,] ruudut)
         {
             bool ruutuStatus = false;
