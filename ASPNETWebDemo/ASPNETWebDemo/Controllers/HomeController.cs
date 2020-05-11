@@ -148,18 +148,18 @@ namespace ASPNETWebDemo.Controllers
         }
 
 
-        [HttpPost]
-        public IActionResult Index()
-        {
-            //Request.Form["testText"].ToString()
-            Kartta kartta = new Kartta();
-            ViewBag.KarttaPath = "/TestFolder/tempKartta.jpg";
-            ViewBag.SivustoPath = "https://localhost:44340/home/index/";
+        //[HttpPost]
+        //public IActionResult Index()
+        //{
+        //    //Request.Form["testText"].ToString()
+        //    Kartta kartta = new Kartta();
+        //    ViewBag.KarttaPath = "/TestFolder/tempKartta.jpg";
+        //    ViewBag.SivustoPath = "https://localhost:44340/home/index/";
 
-            ViewBag.KarttaX = 1;
-            ViewBag.KarttaY = 1;
-            return View(kartta);
-        }
+        //    ViewBag.KarttaX = 1;
+        //    ViewBag.KarttaY = 1;
+        //    return View(kartta);
+        //}
 
 
         //Luodaan Json tarvittavista muuttujista

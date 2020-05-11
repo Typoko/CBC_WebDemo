@@ -72,12 +72,12 @@
         </canvas>
     </div>
 
-    @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+    @*@using (Html.BeginForm("Index", "Home", FormMethod.Post))
     {
         <input type="file" accept="image/*" onchange="loadFile(event)" name="testFile" id="testFile" /><br /><br />
         <img id="outputTest" />
         <input id="testSubmit" name="testSubmit" type="submit" value="Test Template" />
-    }
+    }*@
 
 </div>
 
@@ -93,7 +93,7 @@
         };
 </script>*@
 
-<script>
+@*<script>
     var loadFile = function (event) {
         var output = document.getElementById('outputTest');
         output.src = URL.createObjectURL(event.target.files[0]);
@@ -101,12 +101,7 @@
             URL.revokeObjectURL(output.src);
         }
     }
-
-</script>
-
-
-
-
+</script>*@
 
 
 @*
