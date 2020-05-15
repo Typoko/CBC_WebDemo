@@ -53,6 +53,12 @@ function loadWithParameters()
     //if (document.getElementById("imgOffsetHeight").value) {
         strLocation += "oHeight=" + document.getElementById("imgOffsetHeight").value + "&";
     //}
+    if (document.getElementById("styleOutline").checked) {
+        strLocation += "oStyle=styleOutline&";
+    }
+    else {
+        strLocation += "oStyle=styleDonjon&";
+    }
 
     strLocation += "pMap=" + printMap + "&";
 
@@ -78,7 +84,8 @@ function setParametersToInput() {
         document.getElementById("imgSquare").value = arrParameters[1].slice(arrParameters[1].indexOf("=") + 1);
         document.getElementById("imgOffsetWidth").value = arrParameters[2].slice(arrParameters[2].indexOf("=") + 1);
         document.getElementById("imgOffsetHeight").value = arrParameters[3].slice(arrParameters[3].indexOf("=") + 1);
-        printMap = arrParameters[4].slice(arrParameters[4].indexOf("=") + 1);
+        document.getElementById(arrParameters[4].slice(arrParameters[4].indexOf("=") + 1)).checked = true;
+        printMap = arrParameters[5].slice(arrParameters[5].indexOf("=") + 1);
     }
     else {
         document.getElementById("redrawButton").disabled = true;

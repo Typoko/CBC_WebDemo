@@ -58,7 +58,7 @@ namespace ASPNETWebDemo.Controllers
 
         
 
-        public IActionResult Index(string id, string imageUrl, string rKoko, string oWidth, string oHeight)
+        public IActionResult Index(string id, string imageUrl, string rKoko, string oWidth, string oHeight, string oStyle)
         {
             ViewBag.KarttaPath = "/TestFolder/tempKartta.jpg";
             ViewBag.SivustoPath = "https://localhost:44340/home/index/";
@@ -66,6 +66,7 @@ namespace ASPNETWebDemo.Controllers
             int RuutuKoko;
             int offsetWidth;
             int offsetHeight;
+            string mapStyle;
 
             if (string.IsNullOrEmpty(imageUrl))
             {
@@ -123,6 +124,16 @@ namespace ASPNETWebDemo.Controllers
                 offsetHeight = Convert.ToInt32(oHeight);
             }
 
+            if (string.IsNullOrEmpty(oStyle))
+            {
+                mapStyle = "styleOutline";
+            }
+            else
+            {
+                mapStyle = oStyle;
+            }
+
+
             kartta.RuutuTable = new Ruutu[(kartta.KarttaKuva.Width+offsetWidth)/ RuutuKoko, (kartta.KarttaKuva.Height+offsetHeight)/ RuutuKoko];
 
 
@@ -130,7 +141,7 @@ namespace ASPNETWebDemo.Controllers
             SetRuutuInstances(kartta.RuutuTable);
 
             //Analysoidaan karttakuva ruuduiksi
-            SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva, RuutuKoko, offsetWidth, offsetHeight);
+            SetRuutuHuoneStatus(kartta.RuutuTable, kartta.KarttaKuva, RuutuKoko, offsetWidth, offsetHeight, mapStyle);
 
             //Selvitetään missä väleissä on seiniä
             SetRuutuSeinaStatus(kartta.RuutuTable);
@@ -213,9 +224,25 @@ namespace ASPNETWebDemo.Controllers
             return false;
         }
 
+        public bool OnkoRuutuTumma(int x, int y, Image<Rgba32> kuva, int ruuKoko)
+        {
+            int ruuPuolvali = ruuKoko / 2;
+            int ruuToleranssi = Convert.ToInt32((float)ruuKoko * 0.33f);
+
+            for (int h = 0; h < ruuToleranssi; h++)
+            {
+                if (OnkoSeinaPikseli(kuva[x + ruuPuolvali, y + (ruuKoko - ruuToleranssi) + h]) || OnkoSeinaPikseli(kuva[x + ruuPuolvali, y + ruuKoko + h]))
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         //osHeight ongelma jos antaa liian paljon plussaa tai miinusta!
         //Pitäisi tarkistaa, että ei ole paljon yli 50% per ruudun koko. Voidaan asettaa -ruuKoKo kunnes alle tai yli sen puolen
-        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko, int osWidth, int osHeight)
+        public void SetRuutuHuoneStatus(Ruutu[,] ruudut, Image<Rgba32> kuva, int ruuKoko, int osWidth, int osHeight, string mapStyle)
         {
             bool RuutuTyyppi;
 
@@ -228,10 +255,17 @@ namespace ASPNETWebDemo.Controllers
                 RuutuTyyppi = false;
                 for (int j = 0; j < (ruudut.GetLength(1)-1)*ruuKoko; j+=ruuKoko)
                 {
-                    ruudut[i/ruuKoko, j/ruuKoko].OnkoAvoin = RuutuTyyppi;
-                    if (OnkoSeinaValissa(i+osWidth, j+osHeight, kuva, ruuKoko))
+                    if (mapStyle == "styleOutline")
                     {
-                        RuutuTyyppi = !RuutuTyyppi;
+                        ruudut[i / ruuKoko, j / ruuKoko].OnkoAvoin = RuutuTyyppi;
+                        if (OnkoSeinaValissa(i + osWidth, j + osHeight, kuva, ruuKoko))
+                        {
+                            RuutuTyyppi = !RuutuTyyppi;
+                        }
+                    }
+                    else if (mapStyle == "styleDonjon")
+                    {
+                        ruudut[i / ruuKoko, j / ruuKoko].OnkoAvoin = !OnkoSeinaPikseli(kuva[i + osWidth + 2, j + osHeight + 2]);
                     }
                 }
             }

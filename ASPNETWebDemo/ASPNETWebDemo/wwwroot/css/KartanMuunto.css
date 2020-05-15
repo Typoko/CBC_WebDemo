@@ -26,15 +26,16 @@
 }
 
 .topParam {
-    height:100%;
-    width:33%;
-    float:left;
+    height: 100%;
+    width: 33%;
+    float: left;
+    text-align: center;
 }
 
 .topParamCell {
     height:50%;
     width:100%;
-    text-align:center;
+    
 }
 
 .topText {
