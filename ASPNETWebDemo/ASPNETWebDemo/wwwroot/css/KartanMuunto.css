@@ -47,9 +47,10 @@
 }
 
 .topText {
-    padding: 10px 0;
+    padding: 12px 0;
     font-size: 16px;
     font-weight:bold;
+    line-height:20px;
 }
 
 .topInput {
