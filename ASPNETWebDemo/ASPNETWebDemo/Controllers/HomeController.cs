@@ -265,7 +265,7 @@ namespace ASPNETWebDemo.Controllers
                     }
                     else if (mapStyle == "styleDonjon")
                     {
-                        ruudut[i / ruuKoko, j / ruuKoko].OnkoAvoin = !OnkoSeinaPikseli(kuva[i + osWidth + 2, j + osHeight + 2]);
+                        ruudut[i / ruuKoko, j / ruuKoko].OnkoAvoin = !OnkoSeinaPikseli(kuva[i + osWidth + 1, j + osHeight + 1]);
                     }
                 }
             }
