@@ -1,24 +1,26 @@
 ﻿var pageID;
 
-on("chat:message", function (msg) {
-    if (msg.type == "api" && msg.content.indexOf("!MapFlipper") == 0 && playerIsGM(msg.playerid)) {
-        var selected = msg.selected;
-        if (selected === undefined) {
-            sendChat("API", "Please select a character.");
-            return;
+on("ready", function () {
+    on("chat:message", function (msg) {
+        if (msg.type == "api" && msg.content.indexOf("!MapFlipper") == 0 && playerIsGM(msg.playerid)) {
+            var selected = msg.selected;
+            if (selected === undefined) {
+                sendChat("API", "Please select a character.");
+                return;
+            }
+
+            var tok = getObj("graphic", selected[0]._id);
+            pageID = tok.get("pageid");
+
+            sendChat("Map Flipper", "Creating walls.");
+
+            var paths = msg.content.split("#");
+            paths.splice(0, 1);
+            paths.forEach(funcCreatePath);
+
+            sendChat("Map Flipper", "Walls created.");
         }
-
-        var tok = getObj("graphic", selected[0]._id);
-        pageID = tok.get("pageid");
-
-        sendChat("Map Flipper", "Creating walls.");
-
-        var paths = msg.content.split("#");
-        paths.splice(0, 1);
-        paths.forEach(funcCreatePath);
-
-        sendChat("Map Flipper", "Walls created.");
-    }
+    });
 });
 
 function funcCreatePath(element) {

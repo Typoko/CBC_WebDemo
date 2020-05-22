@@ -18,6 +18,8 @@ using System.Threading;
 using SixLabors.ImageSharp.Formats.Jpeg;
 using SixLabors.ImageSharp.Formats;
 using SixLabors.ImageSharp.Advanced;
+using System.Text;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace ASPNETWebDemo.Controllers
 {
@@ -164,10 +166,10 @@ namespace ASPNETWebDemo.Controllers
 
         public string LuoRoll20Seinat(Kartta k)
         {
-            //Malli !MapFlipper #500@200@170@0#500@400@170@0, missä # toimii seinän erottimena ja @ arvon.
-            //Arvot on x, y, width, height
+            //Malli !MapFlipper #500@200@170@0@0#500@400@170@0@0, missä # toimii seinän erottimena ja @ arvon.
+            //Arvot on x, y, width, height, wall position
 
-            string roll20Seinat = "";
+            StringBuilder roll20Seinat = new StringBuilder();
 
             Ruutu[,] ruudut = k.RuutuTable;
 
@@ -184,13 +186,38 @@ namespace ASPNETWebDemo.Controllers
                     {
                         for (int h = 0; h < 4; h++)
                         {
+                            if(ruudut[i,j].Seinat[h])
+                            {
+                                //lisätään stringbuilderin perään tavaraa
+                                int x = 0;
+                                int y = 0;
 
+                                do
+                                {
+                                    //Poistetaan seinän tila, ettei käytetä useasti
+                                    ruudut[i + x, j + y].Seinat[h] = false;
+                                    
+                                    //Onko kyseessä vaaka- vai pystyseinä
+                                    if(h == 0 || h == 2)
+                                    {
+                                        x++;
+                                    }
+                                    else
+                                    {
+                                        y++;
+                                    }
+                                } while (ruudut[i+x, j+y].Seinat[h]);
+
+                                //#500@200@170@0@0
+                                //x,y,width,height,wall position
+                                roll20Seinat.Append($"#{i}@{j}@{x}@{y}@{h}");
+                            }
                         }
                     }
                 }
             }
             
-            return roll20Seinat;
+            return roll20Seinat.ToString();
         }
 
         //[HttpPost]
