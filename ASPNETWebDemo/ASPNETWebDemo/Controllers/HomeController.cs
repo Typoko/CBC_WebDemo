@@ -158,7 +158,7 @@ namespace ASPNETWebDemo.Controllers
             LuoJson(kartta);
 
             //Luodaan roll20.net API:a varten komento jolla voi luoda seinät suoraan peliin
-            ViewBag.Roll20Seinat =  LuoRoll20Seinat(kartta);
+            ViewBag.Roll20Seinat = LuoRoll20Seinat(kartta);
 
             return View(kartta);
         }
@@ -166,7 +166,7 @@ namespace ASPNETWebDemo.Controllers
 
         public string LuoRoll20Seinat(Kartta k)
         {
-            //Malli !MapFlipper #500@200@170@0@0#500@400@170@0@0, missä # toimii seinän erottimena ja @ arvon.
+            //Malli //!MapFlipper #0@1@0@4@1#1@5@5@0@2#1@0@5@0@0#6@1@0@4@3, missä # toimii seinän erottimena ja @ arvon.
             //Arvot on x, y, width, height, wall position
 
             StringBuilder roll20Seinat = new StringBuilder();
@@ -178,6 +178,7 @@ namespace ASPNETWebDemo.Controllers
             //jo merkatut seinäpalat poistetaan käytettyinä jo seinän merkkaamiseen
             //seinät on merkattu molemmille puolille sitä, joten ainoastaan toiset (ei huoneruudut) käydään läpi
 
+            //TODO! Min ja Max x ja y huomioon, ettei katella turhia ruutuja
             for (int i = 0; i < (ruudut.GetLength(0) - 1); i++)
             {
                 for (int j = 0; j < (ruudut.GetLength(1) - 1); j++)
@@ -192,6 +193,7 @@ namespace ASPNETWebDemo.Controllers
                                 int x = 0;
                                 int y = 0;
 
+                                //rajoja ei pitäisi tarvita vahtia koska reunassa oleva ruutu ei voi omata seinää mikä johtaa "ulospäin"
                                 do
                                 {
                                     //Poistetaan seinän tila, ettei käytetä useasti
@@ -205,10 +207,11 @@ namespace ASPNETWebDemo.Controllers
                                     else
                                     {
                                         y++;
-                                    }
+                                    } 
                                 } while (ruudut[i+x, j+y].Seinat[h]);
 
-                                //#500@200@170@0@0
+                                //"#2@2@0@4@1#3@1@5@0@2#3@6@5@0@0#8@2@0@4@3" tuloste pienmapista
+                                ////!MapFlipper #0@1@0@4@1#1@5@5@0@2#1@0@5@0@0#6@1@0@4@3 tavoiteltava tuloste!
                                 //x,y,width,height,wall position
                                 roll20Seinat.Append($"#{i}@{j}@{x}@{y}@{h}");
                             }
