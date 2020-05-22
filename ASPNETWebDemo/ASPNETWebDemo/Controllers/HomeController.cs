@@ -155,9 +155,43 @@ namespace ASPNETWebDemo.Controllers
             //Luodaan Json konversio "käsin" kun multidimensional olio array ei tunnu menevän läpi vakiona
             LuoJson(kartta);
 
+            //Luodaan roll20.net API:a varten komento jolla voi luoda seinät suoraan peliin
+            ViewBag.Roll20Seinat =  LuoRoll20Seinat(kartta);
+
             return View(kartta);
         }
 
+
+        public string LuoRoll20Seinat(Kartta k)
+        {
+            //Malli !MapFlipper #500@200@170@0#500@400@170@0, missä # toimii seinän erottimena ja @ arvon.
+            //Arvot on x, y, width, height
+
+            string roll20Seinat = "";
+
+            Ruutu[,] ruudut = k.RuutuTable;
+
+            //käydään ruudut läpi järjestyksessä ja aina kun löytyy seinäpala, niin seurataan seinä alusta loppuun ja lisätään listaan
+            //joka ruudussa tarkastetaan aina kaikki seinäsuunnat ennen kuin seuraavaan ruutuun siirrytään
+            //jo merkatut seinäpalat poistetaan käytettyinä jo seinän merkkaamiseen
+            //seinät on merkattu molemmille puolille sitä, joten ainoastaan toiset (ei huoneruudut) käydään läpi
+
+            for (int i = 0; i < (ruudut.GetLength(0) - 1); i++)
+            {
+                for (int j = 0; j < (ruudut.GetLength(1) - 1); j++)
+                {
+                    if (!ruudut[i, j].OnkoAvoin)
+                    {
+                        for (int h = 0; h < 4; h++)
+                        {
+
+                        }
+                    }
+                }
+            }
+            
+            return roll20Seinat;
+        }
 
         //[HttpPost]
         //public IActionResult Index()
@@ -212,6 +246,11 @@ namespace ASPNETWebDemo.Controllers
         {
             int ruuPuolvali = ruuKoko / 2;
             int ruuToleranssi = Convert.ToInt32((float)ruuKoko * 0.33f);
+
+            if (kuva.Height < y + ruuKoko + ruuToleranssi)
+            {
+                return false;
+            }
 
             for (int h = 0;h<ruuToleranssi; h++)
             {
