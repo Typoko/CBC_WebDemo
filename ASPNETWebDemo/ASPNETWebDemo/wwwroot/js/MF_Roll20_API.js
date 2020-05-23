@@ -34,7 +34,7 @@ function funcCreatePath(element) {
 
     if (pathC[4] == 0) {
         pathC[0] = ((parseInt(pathC[0]) + parseInt(pathC[2]) / 2) * 70).toString();
-        pathC[1] = ((parseInt(pathC[1]) + 1) * 70 - 8).toString();
+        pathC[1] = (parseInt(pathC[1]) * 70 + 12).toString();
         pathC[2] = (parseInt(pathC[2]) * 70 + 20).toString();
         pathC[3] = "0";
     } else if (pathC[4] == 1) {
@@ -44,9 +44,10 @@ function funcCreatePath(element) {
         pathC[3] = (parseInt(pathC[3]) * 70 + 20).toString();
     } else if (pathC[4] == 2) {
         pathC[0] = ((parseInt(pathC[0]) + parseInt(pathC[2]) / 2) * 70).toString();
-        pathC[1] = (parseInt(pathC[1]) * 70 + 12).toString();
+        pathC[1] = ((parseInt(pathC[1]) + 1) * 70 - 8).toString();
         pathC[2] = (parseInt(pathC[2]) * 70 + 20).toString();
         pathC[3] = "0";
+        
     } else {
         pathC[0] = (parseInt(pathC[0]) * 70 + 12).toString();
         pathC[1] = ((parseInt(pathC[1]) + parseInt(pathC[3]) / 2) * 70).toString();

@@ -171,6 +171,8 @@ namespace ASPNETWebDemo.Controllers
 
             StringBuilder roll20Seinat = new StringBuilder();
 
+            roll20Seinat.Append("!MapFlipper ");
+
             Ruutu[,] ruudut = k.RuutuTable;
 
             //käydään ruudut läpi järjestyksessä ja aina kun löytyy seinäpala, niin seurataan seinä alusta loppuun ja lisätään listaan
@@ -178,10 +180,9 @@ namespace ASPNETWebDemo.Controllers
             //jo merkatut seinäpalat poistetaan käytettyinä jo seinän merkkaamiseen
             //seinät on merkattu molemmille puolille sitä, joten ainoastaan toiset (ei huoneruudut) käydään läpi
 
-            //TODO! Min ja Max x ja y huomioon, ettei katella turhia ruutuja
-            for (int i = 0; i < (ruudut.GetLength(0) - 1); i++)
+            for (int i = k.MinX; i <= k.MaxX; i++)//(ruudut.GetLength(0) - 1)
             {
-                for (int j = 0; j < (ruudut.GetLength(1) - 1); j++)
+                for (int j = k.MinY; j <= k.MaxY; j++)
                 {
                     if (!ruudut[i, j].OnkoAvoin)
                     {
@@ -210,10 +211,12 @@ namespace ASPNETWebDemo.Controllers
                                     } 
                                 } while (ruudut[i+x, j+y].Seinat[h]);
 
+                                //!TODO! Pitää lisätä tarkastus onko sisä vai ulkokulma molemmissa päissä. pitää lisätä arvoja per ruutu. 0 = -20 px ja 2 = +20 (-1 molemmista ja kerroin)?
+
                                 //"#2@2@0@4@1#3@1@5@0@2#3@6@5@0@0#8@2@0@4@3" tuloste pienmapista
                                 ////!MapFlipper #0@1@0@4@1#1@5@5@0@2#1@0@5@0@0#6@1@0@4@3 tavoiteltava tuloste!
                                 //x,y,width,height,wall position
-                                roll20Seinat.Append($"#{i}@{j}@{x}@{y}@{h}");
+                                roll20Seinat.Append($"#{i-k.MinX}@{j-k.MinY}@{x}@{y}@{h}");
                             }
                         }
                     }
