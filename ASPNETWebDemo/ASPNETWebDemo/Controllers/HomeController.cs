@@ -193,7 +193,10 @@ namespace ASPNETWebDemo.Controllers
                                 //lisätään stringbuilderin perään tavaraa
                                 int x = 0;
                                 int y = 0;
-
+                                if(i - k.MinX == 41 && j-k.MinY== 5)
+                                {
+                                    i = i;
+                                }
                                 //rajoja ei pitäisi tarvita vahtia koska reunassa oleva ruutu ei voi omata seinää mikä johtaa "ulospäin"
                                 do
                                 {
@@ -209,14 +212,52 @@ namespace ASPNETWebDemo.Controllers
                                     {
                                         y++;
                                     } 
-                                } while (ruudut[i+x, j+y].Seinat[h]);
+                                } while (ruudut[i+x, j+y].Seinat[h] && !ruudut[i + x, j + y].OnkoAvoin);
 
                                 //!TODO! Pitää lisätä tarkastus onko sisä vai ulkokulma molemmissa päissä. pitää lisätä arvoja per ruutu. 0 = -20 px ja 2 = +20 (-1 molemmista ja kerroin)?
+
+                                //Oletuksena lisätään pidennykset
+                                int r1 = 1;
+                                int r2 = 2;
+
+                                //vaakataso ja tarkistetaan ettei vasemmalla ole reuna
+                                if((h==0 || h==2) && i!=k.MinX)
+                                {
+                                    if (ruudut[i - 1, j].OnkoAvoin)
+                                    {
+                                        r1 = 0;
+                                    }
+                                }
+                                //vaakataso ja tarkistetaan ettei oikealla ole reuna
+                                if ((h == 0 || h == 2) && i != k.MaxX)
+                                {
+                                    if (ruudut[i + x, j].OnkoAvoin)
+                                    {
+                                        r2 = 0;
+                                    }
+                                }
+                                //vaakataso ja tarkistetaan ettei yllä ole reuna
+                                if ((h == 1 || h == 3) && i != k.MinY)
+                                {
+                                    if (ruudut[i, j - 1].OnkoAvoin)
+                                    {
+                                        r1 = 0;
+                                    }
+                                }
+                                //vaakataso ja tarkistetaan ettei alla ole reuna
+                                if ((h == 1 || h == 3) && i != k.MaxY)
+                                {
+                                    if (ruudut[i, j + y].OnkoAvoin)
+                                    {
+                                        r2 = 0;
+                                    }
+                                }
+
 
                                 //"#2@2@0@4@1#3@1@5@0@2#3@6@5@0@0#8@2@0@4@3" tuloste pienmapista
                                 ////!MapFlipper #0@1@0@4@1#1@5@5@0@2#1@0@5@0@0#6@1@0@4@3 tavoiteltava tuloste!
                                 //x,y,width,height,wall position
-                                roll20Seinat.Append($"#{i-k.MinX}@{j-k.MinY}@{x}@{y}@{h}");
+                                roll20Seinat.Append($"#{i-k.MinX}@{j-k.MinY}@{x}@{y}@{h}@{r1+r2}");
                             }
                         }
                     }
