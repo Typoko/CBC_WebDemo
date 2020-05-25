@@ -193,10 +193,7 @@ namespace ASPNETWebDemo.Controllers
                                 //lisätään stringbuilderin perään tavaraa
                                 int x = 0;
                                 int y = 0;
-                                if(i - k.MinX == 41 && j-k.MinY== 5)
-                                {
-                                    i = i;
-                                }
+                                
                                 //rajoja ei pitäisi tarvita vahtia koska reunassa oleva ruutu ei voi omata seinää mikä johtaa "ulospäin"
                                 do
                                 {
@@ -213,8 +210,6 @@ namespace ASPNETWebDemo.Controllers
                                         y++;
                                     } 
                                 } while (ruudut[i+x, j+y].Seinat[h] && !ruudut[i + x, j + y].OnkoAvoin);
-
-                                //!TODO! Pitää lisätä tarkastus onko sisä vai ulkokulma molemmissa päissä. pitää lisätä arvoja per ruutu. 0 = -20 px ja 2 = +20 (-1 molemmista ja kerroin)?
 
                                 //Oletuksena lisätään pidennykset
                                 int r1 = 1;
@@ -252,7 +247,6 @@ namespace ASPNETWebDemo.Controllers
                                         r2 = 0;
                                     }
                                 }
-
 
                                 //"#2@2@0@4@1#3@1@5@0@2#3@6@5@0@0#8@2@0@4@3" tuloste pienmapista
                                 ////!MapFlipper #0@1@0@4@1#1@5@5@0@2#1@0@5@0@0#6@1@0@4@3 tavoiteltava tuloste!

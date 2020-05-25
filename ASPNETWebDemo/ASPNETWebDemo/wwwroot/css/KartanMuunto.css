@@ -1,4 +1,8 @@
-﻿#topDiv {
+﻿*:focus {
+    outline: none;
+}
+
+#topDiv {
     height: 85px;
     background-image:url('../Textures/topBackground.jpg');
 }
@@ -11,6 +15,13 @@
 #imgPath{
     width:200px;
     text-align:center;
+}
+
+.cellButton {
+    width: 90px;
+    height: 30px;
+    margin-top: 4px;
+    margin-left: 5px;
 }
 
 .topButton {
@@ -27,6 +38,10 @@
 
 #topThird {
     background-image: url('../Textures/topThirdBacground.png');
+}
+
+#topFourth {
+    background-image: url('../Textures/topFourthBacground.png');
 }
 
 .topRadio {
