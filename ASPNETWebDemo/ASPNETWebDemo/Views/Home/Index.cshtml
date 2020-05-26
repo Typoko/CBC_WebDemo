@@ -55,7 +55,7 @@
                     
                 </div>
                 <div class="topParamCell">
-                    <button id="wallLocationsButton" onclick='' class='float-left cellButton'>Locations</button>
+                    <button id="wallLocationsButton" onclick='copyWallLocations()' class='float-left cellButton'>Locations</button>
                 </div>
             </div>
             <div class="topParam">
@@ -100,6 +100,8 @@
         <img id="ruutuTekstuuri400x400" src="~/Textures/ruutuTekstuuri400x400.png" style="display:none">
 
         <img id="30pShadow" src="~/Textures/30pShadow.png" style="display:none">
+
+        <textarea id="txtWallLocations" style="width:1px;height:1px;display:none;">@ViewBag.Roll20Seinat</textarea>
 
         <canvas id="karttaCanvas" width="@Model.TulosteX" height="@Model.TulosteY" style="display:none">
         </canvas>

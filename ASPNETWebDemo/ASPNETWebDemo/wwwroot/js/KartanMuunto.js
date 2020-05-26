@@ -33,6 +33,17 @@ function loadPreviewImage() {
     }
 }
 
+//Kopioidaan wall locations clipboardille
+function copyWallLocations() {
+    var txtWalls = document.getElementById("txtWallLocations");
+    txtWalls.style.display = "inline";
+    //alert(txtWalls.value);
+    txtWalls.select();
+    document.execCommand('copy');
+    txtWalls.style.display = "none";
+    alert("Wall information has been copied to your clipboard.");
+}
+
 //Avetaan sivu uudestaan paramentrien kanssa
 function loadWithParameters()
 {
